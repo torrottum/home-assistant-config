@@ -1,2 +1,2 @@
-# home-assistant-config
-:home: My Home Assistant configuration
+# Home Assistant config
+🏠 My Home Assistant configuration.
