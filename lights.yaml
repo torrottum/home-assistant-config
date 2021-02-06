@@ -1,0 +1,32 @@
+- platform: mqtt
+  schema: json
+  name: Bathroom Ceiling
+  unique_id: bathroom_ceiling
+  command_topic: "zigbee2mqtt/Bathroom Ceiling/set"
+  state_topic: "zigbee2mqtt/Bathroom Ceiling"
+  color_temp: true
+  brightness: true
+- platform: mqtt
+  schema: json
+  name: Living Room Ceiling
+  unique_id: livingroom_ceiling
+  command_topic: "zigbee2mqtt/Living Room Ceiling/set"
+  state_topic: "zigbee2mqtt/Living Room Ceiling"
+  color_temp: true
+  brightness: true
+- platform: mqtt
+  schema: json
+  name: Kitchen Ceiling
+  unique_id: kitchen_ceiling
+  command_topic: "zigbee2mqtt/Kitchen Ceiling/set"
+  state_topic: "zigbee2mqtt/Kitchen Ceiling"
+  color_temp: true
+  brightness: true
+- platform: mqtt
+  schema: json
+  name: Bedroom Ceiling
+  unique_id: bedroom_ceiling
+  command_topic: "zigbee2mqtt/Bedroom Ceiling/set"
+  state_topic: "zigbee2mqtt/Bedroom Ceiling"
+  color_temp: true
+  brightness: true

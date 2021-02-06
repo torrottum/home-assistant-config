@@ -17,7 +17,7 @@
     - 'Living Room Ceiling 2'
     - 'Living Room Ceiling 3'
 '3':
-  friendly_name: Kitchen
+  friendly_name: 'Kitchen Ceiling'
   retain: false
   transition: 0.3
   optimistic: true

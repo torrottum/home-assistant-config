@@ -5,3 +5,4 @@ tts
 zigbee2mqtt/*
 !zigbee2mqtt/devices.yaml
 !zigbee2mqtt/groups.yaml
+*.log
