@@ -3,3 +3,6 @@ home-assistant_v2.db
 .storage
 .HA_VERSION
 tts
+zigbee2mqtt/*
+!zigbee2mqtt/devices.yaml
+!zigbee2mqtt/groups.yaml
