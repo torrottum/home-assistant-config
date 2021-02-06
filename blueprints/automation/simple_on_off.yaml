@@ -1,0 +1,45 @@
+mode: restart
+
+variables:
+  turn_on_state: !input turn_on_state
+  turn_off_state: !input turn_off_state
+
+blueprint:
+  name: Simple on/off
+  description: Turn on/off entity based on another entity
+  domain: automation
+  input:
+    trigger_entity:
+      name: Trigger entity
+      description: This sensor will be synchronized with the light.
+      selector:
+        entity:
+    turn_on_state:
+      name: Turn on if state equals
+      description: Turns on the target entity if trigger state matches this input
+      default: "on"
+    turn_off_state:
+      name: Turn on if state equals
+      description: Turns off the target entity if trigger state matches this input
+      default: "off"
+    target_entity:
+      name: Target entity
+      description: Target entity to turn on/off
+      selector:
+        target:
+trigger:
+  - platform: state
+    entity_id: !input trigger_entity
+    to: !input turn_on_state
+  - platform: state
+    entity_id: !input trigger_entity
+    to: !input turn_off_state
+
+action:
+  service: >
+    {% if trigger.to_state.state == turn_on_state %}
+      homeassistant.turn_on
+    {% elif trigger.to_state.state == turn_off_state %}
+      homeassistant.turn_off
+    {% endif %}
+  target: !input target_entity
