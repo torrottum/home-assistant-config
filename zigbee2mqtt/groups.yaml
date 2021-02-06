@@ -1,6 +1,6 @@
 '1':
   friendly_name: 'Bathroom Ceiling'
-  retain: false
+  retain: true
   transition: 0.3
   optimistic: true
   devices:
@@ -9,7 +9,7 @@
     - 'Bathroom Ceiling 3'
 '2':
   friendly_name: 'Living Room Ceiling'
-  retain: false
+  retain: true
   transition: 0.3
   optimistic: true
   devices:
@@ -18,7 +18,7 @@
     - 'Living Room Ceiling 3'
 '3':
   friendly_name: 'Kitchen Ceiling'
-  retain: false
+  retain: true
   transition: 0.3
   optimistic: true
   devices:
@@ -28,6 +28,7 @@
 '4':
   friendly_name: 'Bedroom Ceiling'
   optimistic: true
+  retrain: true
   devices:
     - 'Bedroom Ceiling 1'
     - 'Bedroom Ceiling 2'
