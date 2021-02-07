@@ -1,9 +1,0 @@
-# TODO: Move to pyscript and take door sensor into account
-- alias: Bathroom light controlled by motion sensor
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      no_motion_wait: '420' # Trådfri sensor, 3 min + 420 sec = 10 min
-      motion_entity: binary_sensor.bathroom_motion_occupancy
-      light_target:
-        entity_id: light.bathroom_ceiling
