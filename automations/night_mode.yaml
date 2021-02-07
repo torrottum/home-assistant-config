@@ -1,0 +1,20 @@
+- alias: 'Night mode turns adaptive lighting sleep mode on/off'
+  trigger: 
+    - platform: state
+      entity_id: input_boolean.night_mode
+  action:
+    - service: switch.turn_{{ trigger.to_state.state }}
+      data:
+        entity_id: switch.adaptive_lighting_sleep_mode_default
+# TODO: Don't do this if guests
+- alias: 'Turn off lights 2 minutes after night mode turned on'
+  trigger:
+    - platform: state
+      entity_id: input_boolean.night_mode
+      to: 'on'
+      from: 'off'
+  action:
+    - delay: 120
+    - service: light.turn_off
+      entity_id: all
+  mode: restart

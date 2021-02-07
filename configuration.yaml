@@ -15,6 +15,8 @@ recorder:
       - sensor.*_action
       - binary_sensor.*_occupancy
 
+input_boolean: !include inputs/input_booleans.yaml
+
 automation manual: !include_dir_merge_list automations
 automation ui: !include automations.yaml
 group: !include groups.yaml
