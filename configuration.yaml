@@ -1,5 +1,3 @@
-
-# Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
 # Text to speech
@@ -25,3 +23,5 @@ scene: !include scenes.yaml
 light: !include lights.yaml
 
 adaptive_lighting: !include integrations/adaptive_lighting.yaml
+spotcast: !include integrations/spotcast.yaml
+spotify: !include integrations/spotify.yaml
