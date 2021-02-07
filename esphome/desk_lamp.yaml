@@ -1,0 +1,46 @@
+esphome:
+  name: desk_lamp
+  platform: ESP8266
+  board: esp8285
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "Desk Lamp Fallback Hotspot"
+    password: !secret ap_password
+
+captive_portal:
+
+logger:
+
+api:
+
+ota:
+
+binary_sensor:
+  - platform: gpio
+    id: button
+    internal: True
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    on_press:
+      - light.toggle: desk_lamp
+
+output:
+  - platform: gpio
+    pin: GPIO12
+    id: relay
+
+light:
+  - platform: binary
+    id: desk_lamp
+    name: "Desk Lamp"
+    output: relay
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: yes
