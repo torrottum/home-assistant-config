@@ -23,3 +23,5 @@ group: !include groups.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 light: !include lights.yaml
+
+adaptive_lighting: !include integrations/adaptive_lighting.yaml

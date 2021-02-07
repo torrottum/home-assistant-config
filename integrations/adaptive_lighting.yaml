@@ -1,0 +1,7 @@
+- name: Default
+  lights:
+    - light.living_room_ceiling
+    - light.kitchen_ceiling
+    - light.bedroom_ceiling
+  interval: 30
+  detect_non_ha_changes: true
