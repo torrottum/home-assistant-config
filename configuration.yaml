@@ -7,13 +7,13 @@ tts:
 # TODO: find out what I actually care about
 recorder:
   exclude:
-    domains:
-      - sensor
-      - binary_sensor
-  include:
     entity_globs:
-      - sensor.*_action
-      - binary_sensor.*_occupancy
+      - sensor.*linkquality
+      - sensor.*update*
+      - sensor.*requested_brightness*
+      - sensor.*battery
+      - sensor.*motion_illuminance*
+      - sensor.*power_on_behavior
 
 input_boolean: !include inputs/input_booleans.yaml
 
