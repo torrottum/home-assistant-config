@@ -27,3 +27,4 @@ light: !include lights.yaml
 adaptive_lighting: !include integrations/adaptive_lighting.yaml
 spotcast: !include integrations/spotcast.yaml
 spotify: !include integrations/spotify.yaml
+device_tracker: !include integrations/device_tracker.yaml
