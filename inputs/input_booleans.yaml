@@ -1,3 +1,6 @@
 night_mode:
   name: Night mode
   icon: mdi:sleep
+guest_mode:
+  name: Guest mode
+  icon: mdi:human-male-female
