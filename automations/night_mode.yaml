@@ -15,6 +15,9 @@
       from: 'off'
   action:
     - delay: 120
+    - condition: state
+      entity_id: input_boolean.night_mode
+      state:  'on'
     - service: light.turn_off
       entity_id: all
   mode: restart
