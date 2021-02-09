@@ -23,6 +23,7 @@ group: !include groups.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 light: !include lights.yaml
+binary_sensor: !include binary_sensors.yaml
 
 adaptive_lighting: !include integrations/adaptive_lighting.yaml
 spotcast: !include integrations/spotcast.yaml
