@@ -1,7 +1,7 @@
 """Support for interface with an Samsung TV."""
 import asyncio
-import logging
 import json
+import logging
 import os
 from datetime import datetime, timedelta
 from socket import error as socketError
@@ -26,36 +26,37 @@ from homeassistant.util import dt as dt_util, Throttle
 from homeassistant.components.media_player import DEVICE_CLASS_TV
 
 from homeassistant.components.media_player.const import (
+    MEDIA_TYPE_APP,
+    MEDIA_TYPE_CHANNEL,
+    MEDIA_TYPE_URL,
+    MEDIA_TYPE_VIDEO,
+    SUPPORT_NEXT_TRACK,
     SUPPORT_PAUSE,
     SUPPORT_PLAY,
     SUPPORT_PLAY_MEDIA,
-    SUPPORT_STOP,
-    SUPPORT_VOLUME_MUTE,
-    SUPPORT_VOLUME_STEP,
-    SUPPORT_VOLUME_SET,
     SUPPORT_PREVIOUS_TRACK,
-    SUPPORT_NEXT_TRACK,
+    SUPPORT_SELECT_SOUND_MODE,
     SUPPORT_SELECT_SOURCE,
-    SUPPORT_TURN_ON,
+    SUPPORT_STOP,
     SUPPORT_TURN_OFF,
-    MEDIA_TYPE_VIDEO,
-    MEDIA_TYPE_CHANNEL,
-    MEDIA_TYPE_APP,
-    MEDIA_TYPE_URL,
+    SUPPORT_TURN_ON,
+    SUPPORT_VOLUME_MUTE,
+    SUPPORT_VOLUME_SET,
+    SUPPORT_VOLUME_STEP,
 )
 
 from homeassistant.const import (
+    CONF_API_KEY,
     CONF_BROADCAST_ADDRESS,
+    CONF_DEVICE_ID,
     CONF_HOST,
     CONF_ID,
     CONF_MAC,
     CONF_NAME,
     CONF_PORT,
-    CONF_DEVICE_ID,
-    CONF_TIMEOUT,
-    CONF_API_KEY,
     CONF_SERVICE,
     CONF_SERVICE_DATA,
+    CONF_TIMEOUT,
     STATE_OFF,
     STATE_ON,
     STATE_UNAVAILABLE,
@@ -63,29 +64,30 @@ from homeassistant.const import (
 
 from .const import (
     DOMAIN,
-    CONF_APP_LIST,
     CONF_APP_LAUNCH_METHOD,
+    CONF_APP_LIST,
     CONF_APP_LOAD_METHOD,
     CONF_CHANNEL_LIST,
-    CONF_DEVICE_NAME,
     CONF_DEVICE_MODEL,
+    CONF_DEVICE_NAME,
     CONF_DEVICE_OS,
     CONF_POWER_ON_DELAY,
     CONF_POWER_ON_METHOD,
     CONF_SHOW_CHANNEL_NR,
     CONF_SOURCE_LIST,
+    CONF_SYNC_TURN_OFF,
+    CONF_SYNC_TURN_ON,
     CONF_USE_MUTE_CHECK,
     CONF_USE_ST_CHANNEL_INFO,
     CONF_USE_ST_STATUS_INFO,
-    CONF_SYNC_TURN_OFF,
-    CONF_SYNC_TURN_ON,
     CONF_WOL_REPEAT,
     CONF_WS_NAME,
-    DEFAULT_TIMEOUT,
-    DEFAULT_SOURCE_LIST,
     DEFAULT_APP,
     DEFAULT_POWER_ON_DELAY,
+    DEFAULT_SOURCE_LIST,
+    DEFAULT_TIMEOUT,
     MAX_WOL_REPEAT,
+    SERVICE_SELECT_PICTURE_MODE,
     SERVICE_SET_ART_MODE,
     STD_APP_LIST,
     WS_PREFIX,
@@ -100,9 +102,11 @@ except ImportError:
     from homeassistant.components.media_player import MediaPlayerDevice as MediaPlayerEntity
 
 ATTR_ART_MODE_STATUS = "art_mode_status"
-ATTR_DEVICE_NAME = "device_name"
 ATTR_DEVICE_MODEL = "device_model"
+ATTR_DEVICE_NAME = "device_name"
 ATTR_IP_ADDRESS = "ip_address"
+ATTR_PICTURE_MODE = "picture_mode"
+ATTR_PICTURE_MODE_LIST = "picture_mode_list"
 
 CMD_OPEN_BROWSER = "open_browser"
 CMD_RUN_APP = "run_app"
@@ -168,7 +172,13 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 
     async_add_entities([SamsungTVDevice(config, entry_id, session)], True)
 
+    # register services
     platform = entity_platform.current_platform.get()
+    platform.async_register_entity_service(
+        SERVICE_SELECT_PICTURE_MODE,
+        {vol.Required(ATTR_PICTURE_MODE): cv.string},
+        "async_select_picture_mode",
+    )
     platform.async_register_entity_service(
         SERVICE_SET_ART_MODE,
         None,
@@ -602,11 +612,9 @@ class SamsungTVDevice(MediaPlayerEntity):
             return False
 
         if source_key.startswith("ST_HDMI"):
-            await self._st.async_send_command(
-                "selectsource", source_key.replace("ST_", "")
-            )
+            await self._st.async_select_source(source_key.replace("ST_", ""))
         elif source_key == "ST_TV":
-            await self._st.async_send_command("selectsource", "digitalTv")
+            await self._st.async_select_source("digitalTv")
         elif source_key == "ST_CHUP":
             await self._st.async_send_command("stepchannel", "up")
         elif source_key == "ST_CHDOWN":
@@ -902,9 +910,26 @@ class SamsungTVDevice(MediaPlayerEntity):
         return self._get_source()
 
     @property
+    def sound_mode(self):
+        """Name of the current sound mode."""
+        if self._st:
+            return self._st.sound_mode
+        return None
+
+    @property
+    def sound_mode_list(self):
+        """List of available sound modes."""
+        if self._st:
+            return self._st.sound_mode_list or None
+        return None
+
+    @property
     def supported_features(self):
         """Flag media player features that are supported."""
-        return SUPPORT_SAMSUNGTV_SMART
+        features = SUPPORT_SAMSUNGTV_SMART
+        if self._st:
+            features |= SUPPORT_SELECT_SOUND_MODE
+        return features
 
     @property
     def device_class(self):
@@ -969,7 +994,7 @@ class SamsungTVDevice(MediaPlayerEntity):
             )
 
             if turn_on_method == PowerOnMethod.SmartThings and self._st:
-                await self._st.async_send_command("turn_on")
+                await self._st.async_turn_on()
             else:
                 result = await self.hass.async_add_executor_job(
                     self._send_wol_packet
@@ -1309,6 +1334,18 @@ class SamsungTVDevice(MediaPlayerEntity):
         self._running_app = running_app
         self._source = source
 
+    async def async_select_sound_mode(self, sound_mode):
+        """Select sound mode."""
+        if not self._st:
+            raise NotImplementedError()
+        await self._st.async_set_sound_mode(sound_mode)
+
+    async def async_select_picture_mode(self, picture_mode):
+        """Select picture mode."""
+        if not self._st:
+            raise NotImplementedError()
+        await self._st.async_set_picture_mode(picture_mode)
+
     @property
     def device_info(self):
         """Return a device description for device registry."""
@@ -1342,6 +1379,14 @@ class SamsungTVDevice(MediaPlayerEntity):
             data.update({
                 ATTR_ART_MODE_STATUS: STATE_ON if status_on else STATE_OFF
             })
+        if self._st:
+            picture_mode = self._st.picture_mode
+            picture_mode_list = self._st.picture_mode_list
+            if picture_mode:
+                data[ATTR_PICTURE_MODE] = picture_mode
+            if picture_mode_list:
+                data[ATTR_PICTURE_MODE_LIST] = picture_mode_list
+
         return data
 
     def _will_remove_from_hass(self):
