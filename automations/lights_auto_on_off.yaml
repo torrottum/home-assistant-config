@@ -23,3 +23,17 @@
       trigger_entity: binary_sensor.storage_room_door_contact
       target_entity:
         entity_id: light.storage_room
+
+- alias: Turn on living room lights when someone comes home
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.someone_home
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: sun
+      after: sunset
+      after_offset: -00:30:00
+  action:
+    - service: light.turn_on
+      entity_id: light.living_room_ceiling
