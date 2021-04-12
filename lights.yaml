@@ -30,3 +30,8 @@
   state_topic: "zigbee2mqtt/Bedroom Ceiling"
   color_temp: true
   brightness: true
+- platform: group
+  name: Kitchen
+  entities:
+    - light.kitchen_ceiling
+    - light.kitchen_counter
