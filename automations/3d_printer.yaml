@@ -1,4 +1,5 @@
 - alias: Send notification when 3D print is done
+  id: send_notification_when_3d_print_is_done
   trigger:
     - platform: state
       entity_id: binary_sensor.ender_3_pro_printing

@@ -1,4 +1,5 @@
 - alias: 'Night mode turns adaptive lighting sleep mode on/off'
+  id: night_mode_turns_adaptive_lightning_sleep_mode_on_off
   trigger: 
     - platform: state
       entity_id: input_boolean.night_mode
@@ -8,6 +9,7 @@
         entity_id: switch.adaptive_lighting_sleep_mode_default
 
 - alias: 'Turn off lights 2 minutes after night mode turned on'
+  id: turn_off_lights_after_night_mode_turned_on
   trigger:
     - platform: state
       entity_id: input_boolean.night_mode
@@ -25,3 +27,12 @@
     - service: light.turn_off
       entity_id: all
   mode: restart
+
+- alias: Turn off night mode at 06:00
+  id: turn_off_night_mode_in_the_morning
+  trigger:
+    - platform: time
+      at: '06:00'
+  action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.night_mode

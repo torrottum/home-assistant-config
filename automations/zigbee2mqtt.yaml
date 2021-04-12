@@ -1,4 +1,5 @@
 - alias: Zigbee Device Joined Notification
+  id: send_notification_when_zigbee_device_joins
   trigger:
     platform: mqtt
     topic: 'zigbee2mqtt/bridge/event'

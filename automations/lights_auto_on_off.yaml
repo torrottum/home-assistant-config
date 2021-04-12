@@ -1,5 +1,6 @@
 # TODO: Move to pyscript and take door sensor into account
-- alias: Bathroom light controlled by motion sensor
+- alias: Bathroom motion sensor turns light on/off
+  id: bathroom_motion_sensor_turns_light_on_off
   use_blueprint:
     path: homeassistant/motion_light.yaml
     input:
@@ -8,7 +9,8 @@
       light_target:
         entity_id: light.bathroom_ceiling
 
-- alias: Entrance light controlled by motion sensor
+- alias: Entrance motion sensor turns light on/off
+  id: entrance_motion_sensor_turns_light_on_off
   use_blueprint:
     path: simple_on_off.yaml
     input:
@@ -16,7 +18,8 @@
       target_entity:
         entity_id: light.entrance
 
-- alias: Storage room light controlled by door sensor
+- alias: Storage room door sensor turns light on/off
+  id: storage_room_door_sensor_turns_light_on_off
   use_blueprint:
     path: simple_on_off.yaml
     input:
@@ -25,6 +28,7 @@
         entity_id: light.storage_room
 
 - alias: Turn on living room lights when someone comes home
+  id: turn_on_living_room_lights_when_someone_comes_home
   trigger:
     - platform: state
       entity_id: binary_sensor.someone_home
@@ -39,6 +43,7 @@
       entity_id: light.living_room_ceiling
 
 - alias: Turn on living room lights before sunset
+  id: turn_on_living_room_lights_before_sunset
   trigger:
     - platform: sun
       event: sunset

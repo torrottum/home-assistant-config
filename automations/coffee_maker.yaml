@@ -1,4 +1,5 @@
 - alias: Coffe maker button turns outlet on/off
+  id: coffee_maker_button_turns_outlet_on_off
   use_blueprint:
     path: simple_on_off.yaml
     input:
