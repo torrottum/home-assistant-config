@@ -1,0 +1,10 @@
+- alias: Send notification when 3D print is done
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.ender_3_pro_printing
+      from: 'on'
+      to: 'off'
+  action:
+    - service: notify.mobile_app_tors_iphone
+      data:
+        message: '3D print is done'
