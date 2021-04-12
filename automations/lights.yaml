@@ -86,3 +86,14 @@
       target:
         entity_id: light.kitchen
   mode: single
+
+- alias: Bedroom motion sensor turns bedroom lights on/off
+  id: bedroom_motion_sensor_turns_lights_on_off
+  # TODO: would be nice to be able to override this.
+  # Keep the lights on if light was turned on manually or by the Hue remote
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      motion_entity: binary_sensor.bedroom_motion_occupancy
+      light_target:
+        entity_id: light.bedroom_ceiling
