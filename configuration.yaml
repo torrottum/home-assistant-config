@@ -30,3 +30,4 @@ spotcast: !include integrations/spotcast.yaml
 spotify: !include integrations/spotify.yaml
 device_tracker: !include integrations/device_tracker.yaml
 octoprint: !include integrations/octoprint.yaml
+ios: !include integrations/ios.yaml

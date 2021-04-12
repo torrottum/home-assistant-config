@@ -1,0 +1,15 @@
+push:
+  categories:
+    - name: Turn off guest mode or everything
+      identifier: 'TURN_OFF_GUEST_MODE_OR_EVERYTHING'
+      actions:
+        - identifier: 'TURN_OFF_EVERYTHING'
+          title: 'Turn off everything'
+          activationMode: 'background'
+          authenticationRequired: true
+          destructive: true
+        - identifier: 'TURN_OFF_GUEST_MODE'
+          title: 'Turn off guest mode'
+          activationMode: 'background'
+          authenticationRequired: true
+          destructive: true
