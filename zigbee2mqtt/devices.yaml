@@ -64,4 +64,6 @@
 '0x00178801067b2212':
   friendly_name: 'Reading Lamp'
 '0x001788010873eb61':
-  friendly_name: 'Bedroom Dimmer'
+  friendly_name: Bedroom Dimmer
+'0x00158d00069c518f':
+  friendly_name: Reading Chair Presence
