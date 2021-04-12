@@ -61,3 +61,15 @@
   action:
     - service: light.turn_on
       entity_id: light.living_room_ceiling
+
+- alias: Reading chair presence turns reading lamp on/off
+  id: reading_chair_presence_turns_reading_lamp_on_off
+  use_blueprint:
+    path: simple_on_off.yaml
+    input:
+      # state is flipped. Presence sensor is an aqara contact sensor wired to a pressure sensor
+      turn_off_state: 'on'
+      turn_on_state: 'off'
+      trigger_entity: binary_sensor.reading_chair_presence_contact
+      target_entity:
+        entity_id: light.reading_lamp
