@@ -62,17 +62,26 @@
     - service: light.turn_on
       entity_id: light.living_room_ceiling
 
-- alias: Reading chair presence turns reading lamp on/off
-  id: reading_chair_presence_turns_reading_lamp_on_off
-  use_blueprint:
-    path: simple_on_off.yaml
-    input:
-      # state is flipped. Presence sensor is an aqara contact sensor wired to a pressure sensor
-      turn_off_state: 'on'
-      turn_on_state: 'off'
-      trigger_entity: binary_sensor.reading_chair_presence_contact
-      target_entity:
-        entity_id: light.reading_lamp
+- alias: "Reading chair controls reading lamp"
+  id: reading_chair_controls_reading_lamp
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.reading_chair_presence_contact
+      to: 'off' # State is flipped. The sensor is a contact sensor wired to a car seat pressure sensor
+  condition:
+    - condition: state
+      entity_id: light.reading_lamp
+      state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.reading_lamp
+    - wait_for_trigger:
+      - platform: state
+        entity_id: binary_sensor.reading_chair_presence_contact
+        to: 'on'
+        for: '00:00:10'
+    - service: light.turn_off
+      entity_id: light.reading_lamp
 
 - alias: Ansluta remote toggles kitchen lights
   id: ansluta_remote_toggles_kitchen_lights
@@ -86,14 +95,28 @@
       target:
         entity_id: light.kitchen
   mode: single
-
+  
 - alias: Bedroom motion sensor turns bedroom lights on/off
   id: bedroom_motion_sensor_turns_lights_on_off
-  # TODO: would be nice to be able to override this.
-  # Keep the lights on if light was turned on manually or by the Hue remote
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      motion_entity: binary_sensor.bedroom_motion_occupancy
-      light_target:
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bedroom_motion_occupancy
+    from: "off"
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: light.bedroom_ceiling
+      state: "off"
+  action:
+    - service: light.turn_on
+      target:
+       entity_id: light.bedroom_ceiling
+    - wait_for_trigger:
+        platform: state
+        entity_id: binary_sensor.bedroom_motion_occupancy
+        from: "on"
+        to: "off"
+    - delay: 120
+    - service: light.turn_off
+      target: 
         entity_id: light.bedroom_ceiling
