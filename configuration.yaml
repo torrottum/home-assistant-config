@@ -14,12 +14,12 @@ tts:
 recorder:
   exclude:
     entity_globs:
-      - sensor.*linkquality
-      - sensor.*update*
-      - sensor.*requested_brightness*
-      - sensor.*battery
-      - sensor.*motion_illuminance*
-      - sensor.*power_on_behavior
+          - sensor.*linkquality
+          - sensor.*update*
+          - sensor.*requested_brightness*
+          - sensor.*battery
+          - sensor.*motion_illuminance*
+          - sensor.*power_on_behavior
 
 input_boolean: !include helpers/input_booleans.yaml
 input_datetime: !include helpers/input_datetimes.yaml
