@@ -1,3 +1,4 @@
+---
 esphome:
   name: desk_lamp
   platform: ESP8266
@@ -21,11 +22,11 @@ ota:
 binary_sensor:
   - platform: gpio
     id: button
-    internal: True
+    internal: true
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
-      inverted: True
+      inverted: true
     on_press:
       - light.toggle: desk_lamp
 
@@ -43,4 +44,4 @@ light:
 status_led:
   pin:
     number: GPIO13
-    inverted: yes
+    inverted: true

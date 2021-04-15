@@ -1,0 +1,13 @@
+---
+
+extends: default
+
+ignore: |
+  automations.yaml
+  blueprints/automation/*/
+  custom_components
+  secrets.yaml
+  scenes.yaml
+  zigbee2mqtt
+  !zigbee2mqtt/devices.yaml
+  !zigbee2mqtt/groups.yaml

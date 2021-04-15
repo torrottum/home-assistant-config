@@ -1,6 +1,7 @@
+---
 - alias: 'Night mode turns adaptive lighting sleep mode on/off'
   id: night_mode_turns_adaptive_lightning_sleep_mode_on_off
-  trigger: 
+  trigger:
     - platform: state
       entity_id: input_boolean.night_mode
   action:

@@ -1,3 +1,4 @@
+---
 mode: restart
 
 variables:
@@ -16,11 +17,13 @@ blueprint:
         entity:
     turn_on_state:
       name: Turn on if state equals
-      description: Turns on the target entity if trigger state matches this input
+      description: >
+        Turns on the target entity if trigger state matches this input
       default: "on"
     turn_off_state:
       name: Turn on if state equals
-      description: Turns off the target entity if trigger state matches this input
+      description: >
+        Turns off the target entity if trigger state matches this input
       default: "off"
     target_entity:
       name: Target entity

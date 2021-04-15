@@ -1,3 +1,4 @@
+---
 esphome:
   name: kitchen_counter
   platform: ESP8266
@@ -31,8 +32,10 @@ ikea_ansluta:
       - homeassistant.event:
           event: esphome.ansluta_remote_clicked
           data:
-            address: !lambda 'char buffer [4]; return itoa(address, buffer, 16);'
-            command: !lambda 'char buffer [2]; return itoa(command, buffer, 16);'
+            address: !lambda 'char buffer [4];
+              return itoa(address, buffer, 16);'
+            command: !lambda 'char buffer [2];
+              return itoa(command, buffer, 16);'
       - logger.log:
           format: "Remote with address %#04x sent command %#02x"
           args: ['address', 'command']

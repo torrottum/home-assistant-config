@@ -1,3 +1,4 @@
+---
 - alias: Send notification when 3D print is done
   id: send_notification_when_3d_print_is_done
   trigger:

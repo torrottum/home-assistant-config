@@ -1,14 +1,39 @@
+---
+
 turn_off_everything:
   alias: Turn off everything
   sequence:
-  - service: light.turn_off
-    data: {}
-    entity_id: all
-  - service: switch.turn_off
-    data: {}
-    entity_id: switch.coffee_maker_outlet
-  - service: media_player.turn_off
-    target:
+    - service: light.turn_off
+      data: {}
       entity_id: all
+    - service: switch.turn_off
+      data: {}
+      entity_id: switch.coffee_maker_outlet
+    - service: media_player.turn_off
+      target:
+        entity_id: all
   mode: single
   icon: mdi:power-plug-off
+reading_mode:
+  alias: Reading mode
+  sequence:
+    - service: light.turn_off
+      data: {}
+      entity_id: light.living_room_ceiling
+  mode: single
+  icon: mdi:book-open
+cooking:
+  alias: Cooking mode
+  sequence:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        lights: light.kitchen
+        manual_control: true
+        entity_id: switch.adaptive_lighting_default
+    - service: light.turn_on
+      data:
+        kelvin: 4100
+        brightness_pct: 100
+      target:
+        entity_id: light.kitchen
+  mode: single

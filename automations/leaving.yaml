@@ -1,3 +1,4 @@
+---
 - alias: Turn off everything when nobody is home
   id: turn_off_everything_when_nobody_is_home
   trigger:
@@ -46,5 +47,5 @@
       actionName: TURN_OFF_GUEST_MODE
   action:
     service: input_boolean.turn_off
-    target: 
+    target:
       entity_id: input_boolean.guest_mode
