@@ -10,6 +10,7 @@ DEFAULT_DURATION = 1800
 MIN_TIME_STEP = 2
 
 
+
 @service
 def wakeup_light(entity_id=None, duration=DEFAULT_DURATION, **kwargs):
     """yaml
