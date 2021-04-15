@@ -1,0 +1,269 @@
+---
+
+# Zigbe2MQTT Phillips Hue Dimmer switch 324131092621
+
+blueprint:
+  name: 0 Z2M Phillips Hue Dimmer
+  description: 'Run actions when Hue Dimmer is used'
+  domain: automation
+  input:
+    remote:
+      name: Dimmer
+      description: Dimmer action sensor
+      selector:
+        entity:
+          domain: sensor
+    helper_last_command:
+      name: Last command helper. Required for double presses
+      description: Input Text that stores the last remote command
+      default: ''
+      selector:
+        entity:
+          domain: input_text
+    helper_double_press_delay:
+      name: (Optional) Helper - Double Press delay
+      description: Delay between first and second press
+      default: 500
+      selector:
+        number:
+          min: 0.0
+          max: 10000.0
+          unit_of_measurement: milliseconds
+          mode: box
+          step: 100
+    on_press:
+      name: On button - press
+      description: Action(s) to run on on-press
+      default: []
+      selector:
+        action: {}
+    on_press_double:
+      name: On button - double press
+      description: Action(s) to run when double pressing
+      default: []
+      selector:
+        action: {}
+    on_hold:
+      name: On button - hold
+      description: Action(s) to run on on-hold
+      default: []
+      selector:
+        action: {}
+    up_press:
+      name: Up button - press
+      description: Action(s) to run on up-press
+      default: []
+      selector:
+        action: {}
+    up_press_double:
+      name: Up button - double press
+      description: Action(s) to run when double pressing up
+      default: []
+      selector:
+        action: {}
+    up_hold:
+      name: Up button - hold
+      description: Action(s) to run on up-hold
+      default: []
+      selector:
+        action: {}
+    down_press:
+      name: Down button - press
+      description: Action(s) to run on down-press
+      default: []
+      selector:
+        action: {}
+    down_press_double:
+      name: Down button - double press
+      description: Action(s) to run when double pressing down
+      default: []
+      selector:
+        action: {}
+    down_hold:
+      name: Down button - hold
+      description: Action(s) to run on down-hold
+      default: []
+      selector:
+        action: {}
+    off_press:
+      name: Off button - press
+      description: Action(s) to run on off-press
+      default: []
+      selector:
+        action: {}
+    off_press_double:
+      name: Off button - double press
+      description: Action(s) to run when double pressing off
+      default: []
+      selector:
+        action: {}
+    off_hold:
+      name: Off button - hold
+      description: Action(s) to run on off-hold
+      default: []
+      selector:
+        action: {}
+
+mode: restart
+max_exceeded: silent
+
+variables:
+  on_press_double: !input on_press_double
+  up_press_double: !input up_press_double
+  down_press_double: !input down_press_double
+  off_press_double: !input off_press_double
+  helper_last_command: !input helper_last_command
+
+trigger:
+  - platform: state
+    entity_id: !input remote
+    to:
+      - "on-press"
+      - "on-hold"
+      - "up-press"
+      - "up-hold"
+      - "down-press"
+      - "down-hold"
+      - "off-press"
+      - "off-hold"
+
+action:
+  - variables:
+      command: '{{ trigger.to_state.state }}'
+  # - service: system_log.write
+  #   data:
+  #     message: "Remote state: '{{ command }}' }}"
+  #     level: warning
+  - choose:
+      - conditions: "{{ command == 'on-hold' }}"
+        sequence: !input on_hold
+      - conditions: "{{ command == 'on-press' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ on_press_double | length > 0 }}"
+                sequence:
+                  - choose:
+                      - conditions: >
+                          {{ states(helper_last_command) == command }}
+                        sequence:
+                          - service: input_text.set_value
+                            data:
+                              entity_id: !input helper_last_command
+                              value: ""
+                          - choose:
+                            default: !input on_press_double
+                    default:
+                      - service: input_text.set_value
+                        data:
+                          entity_id: !input helper_last_command
+                          value: "{{ command }}"
+                      - delay:
+                          milliseconds: !input helper_double_press_delay
+                      - service: input_text.set_value
+                        data:
+                          entity_id: !input helper_last_command
+                          value: ""
+                      - choose:
+                        default: !input on_press
+            default:
+              - choose:
+                default: !input on_press
+      - conditions: "{{ command == 'up-hold' }}"
+        sequence: !input up_hold
+      - conditions: "{{ command == 'up-press' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ up_press_double | length > 0 }}"
+                sequence:
+                  - choose:
+                      - conditions: >
+                          {{ states(helper_last_command) == command }}
+                        sequence:
+                          - service: input_text.set_value
+                            data:
+                              entity_id: !input helper_last_command
+                              value: ""
+                          - choose:
+                            default: !input up_press_double
+                    default:
+                      - service: input_text.set_value
+                        data:
+                          entity_id: !input helper_last_command
+                          value: "{{ command }}"
+                      - delay:
+                          milliseconds: !input helper_double_press_delay
+                      - service: input_text.set_value
+                        data:
+                          entity_id: !input helper_last_command
+                          value: ""
+                      - choose:
+                        default: !input up_press
+            default:
+              - choose:
+                default: !input up_press
+      - conditions: "{{ command == 'down-press' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ down_press_double | length > 0 }}"
+                sequence:
+                  - choose:
+                      - conditions: >
+                          {{ states(helper_last_command) == command }}
+                        sequence:
+                          - service: input_text.set_value
+                            data:
+                              entity_id: !input helper_last_command
+                              value: ""
+                          - choose:
+                            default: !input down_press_double
+                    default:
+                      - service: input_text.set_value
+                        data:
+                          entity_id: !input helper_last_command
+                          value: "{{ command }}"
+                      - delay:
+                          milliseconds: !input helper_double_press_delay
+                      - service: input_text.set_value
+                        data:
+                          entity_id: !input helper_last_command
+                          value: ""
+                      - choose:
+                        default: !input down_press
+            default:
+              - choose:
+                default: !input down_press
+      - conditions: "{{ command == 'down-hold' }}"
+        sequence: !input down_hold
+      - conditions: "{{ command == 'off-press' }}"
+        sequence:
+          - choose:
+              - conditions: "{{ off_press_double | length > 0 }}"
+                sequence:
+                  - choose:
+                      - conditions: >
+                          {{ states(helper_last_command) == command }}
+                        sequence:
+                          - service: input_text.set_value
+                            data:
+                              entity_id: !input helper_last_command
+                              value: ""
+                          - choose:
+                            default: !input off_press_double
+                    default:
+                      - service: input_text.set_value
+                        data:
+                          entity_id: !input helper_last_command
+                          value: "{{ command }}"
+                      - delay:
+                          milliseconds: !input helper_double_press_delay
+                      - service: input_text.set_value
+                        data:
+                          entity_id: !input helper_last_command
+                          value: ""
+                      - choose:
+                        default: !input off_press
+            default:
+              - choose:
+                default: !input off_press
+      - conditions: "{{ command == 'off-hold' }}"
+        sequence: !input off_hold
