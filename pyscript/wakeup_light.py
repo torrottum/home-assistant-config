@@ -75,6 +75,6 @@ fields:
             color_temp=color_temp,
             transition=transition
         )
-        task.sleep(t)
+        task.sleep(transition)
         t += transition
         first_run = False
