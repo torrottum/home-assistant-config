@@ -76,3 +76,16 @@
               - light.kitchen
               - light.bedroom_ceiling
               - light.desk_lamp
+
+- alias: "Remote: Ansluta remote toggles kitchen lights"
+  id: ansluta_remote_toggles_kitchen_lights
+  trigger:
+    - platform: event
+      event_type: esphome.ansluta_remote_clicked
+      event_data:
+        address: 35c0
+  action:
+    - service: light.toggle
+      target:
+        entity_id: light.kitchen
+  mode: restart
