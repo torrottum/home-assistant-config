@@ -107,13 +107,6 @@ blueprint:
 mode: restart
 max_exceeded: silent
 
-variables:
-  on_press_double: !input on_press_double
-  up_press_double: !input up_press_double
-  down_press_double: !input down_press_double
-  off_press_double: !input off_press_double
-  helper_last_command: !input helper_last_command
-
 trigger:
   - platform: state
     entity_id: !input remote
@@ -130,6 +123,11 @@ trigger:
 action:
   - variables:
       command: '{{ trigger.to_state.state }}'
+      on_press_double: !input on_press_double
+      up_press_double: !input up_press_double
+      down_press_double: !input down_press_double
+      off_press_double: !input off_press_double
+      helper_last_command: !input helper_last_command
   # - service: system_log.write
   #   data:
   #     message: "Remote state: '{{ command }}' }}"
