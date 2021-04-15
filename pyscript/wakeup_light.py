@@ -59,7 +59,7 @@ fields:
     t = 0
 
     first_run = True
-    for x in range(steps):
+    for _ in range(steps):
         if first_run:
             state.set(entity_id, 'on')
         elif state.get(entity_id) == 'off' and not first_run:
