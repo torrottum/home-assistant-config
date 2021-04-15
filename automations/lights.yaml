@@ -1,3 +1,5 @@
+---
+
 # TODO: Move to pyscript and take door sensor into account
 - alias: Bathroom motion sensor turns light on/off
   id: bathroom_motion_sensor_turns_light_on_off
@@ -71,6 +73,9 @@
   condition:
     - condition: state
       entity_id: light.reading_lamp
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.guest_mode
       state: 'off'
   action:
     - service: light.turn_on
