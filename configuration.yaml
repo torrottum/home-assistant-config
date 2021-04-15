@@ -1,6 +1,10 @@
 default_config:
 
-# Text to speech
+logger:
+  default: warning
+  logs:
+    custom_components.pyscript: info
+
 tts:
   - platform: google_translate
 
@@ -15,7 +19,10 @@ recorder:
       - sensor.*motion_illuminance*
       - sensor.*power_on_behavior
 
-input_boolean: !include inputs/input_booleans.yaml
+input_boolean: !include helpers/input_booleans.yaml
+input_datetime: !include helpers/input_datetimes.yaml
+input_number: !include helpers/input_numbers.yaml
+input_text: !include helpers/input_texts.yaml
 
 automation manual: !include_dir_merge_list automations
 automation ui: !include automations.yaml
@@ -24,6 +31,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 light: !include lights.yaml
 binary_sensor: !include binary_sensors.yaml
+sensor: !include sensors/sensors.yaml
 
 adaptive_lighting: !include integrations/adaptive_lighting.yaml
 spotcast: !include integrations/spotcast.yaml
@@ -31,3 +39,4 @@ spotify: !include integrations/spotify.yaml
 device_tracker: !include integrations/device_tracker.yaml
 octoprint: !include integrations/octoprint.yaml
 ios: !include integrations/ios.yaml
+pyscript: !include pyscript/config.yaml

@@ -1,0 +1,9 @@
+---
+alarm_clock:
+  name: Alarm clock time
+  icon: mdi:clock
+  has_time: true
+wakeup_light:
+  name: Wake up light time
+  icon: mdi:clock
+  has_time: true

@@ -1,0 +1,109 @@
+---
+- alias: "Alarm clock: start music"
+  id: alarm_clock_start_music
+  trigger:
+    platform: time
+    at: input_datetime.alarm_clock
+  variables:
+    player: media_player.bedroom_nest_mini
+    volume: 40
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.alarm_clock_sound
+      state: "on"
+  action:
+    - service: media_player.volume_set
+      data:
+        volume_level: 0
+      target:
+        entity_id: "{{ player }}"
+    - delay: 5
+    - service: spotcast.start
+      data:
+        entity_id: "{{ player }}"
+        uri: >
+          {% set today = now().strftime('%m-%d') %}
+          {% if today == '02-06' %}
+          {# Sámi Eatnan Duoddariid - Nils-Aslak Valkeapää  #}
+          spotify:track:24vSixsqrIh74rVVQh6uFa
+          {% elif today == '05-17' %}
+          {# Ja, vi elsker #}
+          spotify:track:4y9ul73wG14TMt3lCeosQE
+          {% elif today == '06-03' %}
+          {# Birthday - The Beatles #}
+          spotify:track:1ABegtCPBMMJaMpfDyATjE
+          {% else %}
+          {# Vekkerklokke playlist #}
+          spotify:playlist:62khJ47mYLNcrwlUpyKkYo
+          {% endif %}
+        random_song: true
+        shuffle: true
+        start_volume: "{{ volume }}"
+
+- alias: "Alarm clock: turn on coffee maker"
+  id: alarm_clock_turn_on_coffe_maker
+  trigger:
+    platform: time
+    at: input_datetime.alarm_clock
+  variables:
+    coffee_maker: switch.coffee_maker_outlet
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.alarm_clock_turn_on_coffee_maker
+      state: "on"
+    - condition: template
+      value_template: "{{ is_state(coffee_maker, 'off') }}"
+  action:
+    service: switch.turn_on
+    data:
+      entity_id: "{{ coffee_maker }}"
+
+- alias: "Alarm clock: set wake up light time to 30 mins before alarm"
+  id: alarm_clock_set_wakeup_light_time
+  trigger:
+    platform: state
+    entity_id: input_datetime.alarm_clock
+  action:
+    service: input_datetime.set_datetime
+    data:
+      timestamp: >
+        {% set alarm =
+          state_attr("input_datetime.alarm_clock", "timestamp")|int %}
+        {% set today = as_timestamp(now()
+          .replace(hour=0)
+          .replace(minute=0)
+          .replace(second=0)) %}
+        {{ today + alarm - 60 * 30 }}
+    target:
+      entity_id: input_datetime.wakeup_light
+
+- alias: "Alarm clock: wake up light"
+  id: alarm_clock_wakeup_light
+  trigger:
+    platform: time
+    at: input_datetime.wakeup_light
+  variables:
+    light: light.bedroom_ceiling
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.alarm_clock_wakeup_light
+      state: "on"
+  action:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: switch.adaptive_lighting_default
+        lights: "{{ light }}"
+        manual_control: true
+    - service: pyscript.wakeup_light
+      data:
+        entity_id: "{{ light }}"
+        duration: 1800
