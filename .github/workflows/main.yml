@@ -1,0 +1,17 @@
+---
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  yamllint:
+    name: yamllint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: 🚀 Run yamllint
+        uses: frenck/action-yamllint@v1.0.1
+        with:
+          strict: true
