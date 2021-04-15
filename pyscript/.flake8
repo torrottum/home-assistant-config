@@ -1,0 +1,4 @@
+[flake8]
+# Haven't added all of the pyscript globals yet
+# Will add them as I go
+builtins = service,task,state,light,log
