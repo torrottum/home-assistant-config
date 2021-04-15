@@ -14,19 +14,14 @@
     - platform: state
       entity_id: input_boolean.night_mode
       to: 'on'
-      from: 'off'
+      for: 00:02:00
   condition:
     - condition: state
       entity_id: input_boolean.guest_mode
       state: 'off'
   action:
-    - delay: 120
-    - condition: state
-      entity_id: input_boolean.night_mode
-      state:  'on'
     - service: light.turn_off
       entity_id: all
-  mode: restart
 
 - alias: Turn off night mode at 06:00
   id: turn_off_night_mode_in_the_morning
