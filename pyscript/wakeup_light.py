@@ -51,24 +51,20 @@ fields:
 
     start_temp = kwargs.get("start_temp",
                             state.getattr(entity_id)["max_mireds"])
-    end_temp = kwargs.get("start_temp",
+    end_temp = kwargs.get("end_temp",
                           state.getattr(entity_id)["min_mireds"])
 
-    steps = min(duration // 2, 255) + 1
-    transition = duration / (steps - 1)
-    t = 0
+    steps = min(duration // 2, 255)
+    transition = duration / steps
 
     first_run = True
-    for _ in range(steps):
+    for i in range(steps + 1):
         if first_run:
             state.set(entity_id, 'on')
         elif state.get(entity_id) == 'off' and not first_run:
             break
-
-        elapsed = t / duration
-        brightness = lerp(1, 255, elapsed)
-        color_temp = lerp(start_temp, end_temp, elapsed)
-        log.info(brightness)
+        brightness = lerp(1, 255, i / steps)
+        color_temp = lerp(start_temp, end_temp, i / steps)
         light.turn_on(
             entity_id=entity_id,
             brightness=brightness,
@@ -76,5 +72,4 @@ fields:
             transition=transition
         )
         task.sleep(transition)
-        t += transition
         first_run = False
