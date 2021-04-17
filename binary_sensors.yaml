@@ -14,3 +14,38 @@
         {% else %}
           mdi:home
         {% endif %}
+    next_alarm_workday:
+      unique_id: next_alarm_workday
+      friendly_name: Is next alarm on a work day
+      value_template: >-
+        {% set a = states("input_datetime.alarm_clock") %}
+        {% if now().time() < strptime(a, "%H:%M:%S").time() %}
+          {{ is_state('binary_sensor.workday_today', 'on') }}
+        {% else %}
+          {{ is_state('binary_sensor.workday_tomorrow', 'on') }}
+        {% endif %}
+      attribute_templates:
+        human_readable: >-
+          {% set a = states("input_datetime.alarm_clock") %}
+          {% if now().time() < strptime(a, "%H:%M:%S").time() %}
+            {% if is_state('binary_sensor.workday_today', 'on') %}
+              Yes
+            {% else %}
+              No
+            {% endif %}
+          {% else %}
+            {% if is_state('binary_sensor.workday_tomorrow', 'on') %}
+              Yes
+            {% else %}
+              No
+            {% endif %}
+          {% endif %}
+
+- platform: workday
+  name: Workday today
+  country: "NO"
+
+- platform: workday
+  name: Workday tomorrow
+  country: "NO"
+  days_offset: 1
