@@ -130,3 +130,5 @@
       data:
         entity_id: "{{ light }}"
         duration: 1800
+        start_temp: 454
+        end_temp: 205
