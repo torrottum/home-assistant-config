@@ -131,3 +131,23 @@
     - service: light.turn_off
       target:
         entity_id: light.bedroom_ceiling
+
+- alias: "Adaptive lighting: reset manual_control after 1 hour"
+  id: adaptive_lightning_reset_manual_control_after_1_hour
+  mode: parallel
+  max: 100
+  trigger:
+    - platform: event
+      event_type: adaptive_lighting.manual_control
+  variables:
+    light: "{{ trigger.event.data.entity_id }}"
+    switch: "{{ trigger.event.data.switch }}"
+  action:
+    - delay: "01:00:00"
+    - condition: template
+      value_template: "{{ light in state_attr(switch, 'manual_control') }}"
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: "{{ switch }}"
+        lights: "{{ light }}"
+        manual_control: false
