@@ -1,0 +1,42 @@
+---
+# My scenes are implemented as scripts so
+# I can enable manual control for adaptive lightning
+scene_reading:
+  alias: Reading
+  sequence:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        lights: light.living_room_ceiling
+        manual_control: true
+        entity_id: switch.adaptive_lighting_default
+    - service: light.turn_off
+      entity_id: light.kitchen
+    - service: light.turn_on
+      entity_id: light.living_room_ceiling
+      data:
+        transition: 2
+        brightness_pct: 20
+        color_temp: 454
+    - service: light.turn_on
+      entity_id: light.reading_lamp
+      data:
+        transition: 2
+        brightness_pct: 45
+        color_temp: 454
+  mode: restart
+  icon: mdi:book-open
+scene_cooking:
+  alias: Cooking
+  sequence:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        lights: light.kitchen
+        manual_control: true
+        entity_id: switch.adaptive_lighting_default
+    - service: light.turn_on
+      data:
+        kelvin: 4100
+        brightness_pct: 100
+      target:
+        entity_id: light.kitchen
+  mode: restart
