@@ -9,5 +9,3 @@ ignore: |
   secrets.yaml
   scenes.yaml
   zigbee2mqtt
-  !zigbee2mqtt/devices.yaml
-  !zigbee2mqtt/groups.yaml
