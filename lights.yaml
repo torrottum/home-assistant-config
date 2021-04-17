@@ -7,6 +7,7 @@
   state_topic: "zigbee2mqtt/Bathroom Ceiling"
   color_temp: true
   brightness: true
+  max_mireds: 454
 - platform: mqtt
   schema: json
   name: Living Room Ceiling
@@ -15,6 +16,7 @@
   state_topic: "zigbee2mqtt/Living Room Ceiling"
   color_temp: true
   brightness: true
+  max_mireds: 454
 - platform: mqtt
   schema: json
   name: Kitchen Ceiling
@@ -23,6 +25,7 @@
   state_topic: "zigbee2mqtt/Kitchen Ceiling"
   color_temp: true
   brightness: true
+  max_mireds: 454
 - platform: mqtt
   schema: json
   name: Bedroom Ceiling
@@ -31,6 +34,7 @@
   state_topic: "zigbee2mqtt/Bedroom Ceiling"
   color_temp: true
   brightness: true
+  max_mireds: 454
 - platform: group
   name: Kitchen
   entities:
