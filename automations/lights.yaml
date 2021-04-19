@@ -74,9 +74,6 @@
       to: 'off'
   condition:
     - condition: state
-      entity_id: light.reading_lamp
-      state: 'off'
-    - condition: state
       entity_id: input_boolean.guest_mode
       state: 'off'
   action:
