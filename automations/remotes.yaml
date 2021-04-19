@@ -89,3 +89,54 @@
       target:
         entity_id: light.kitchen
   mode: restart
+
+- alias: "Remote: Bedroom Dimmer"
+  id: bedroom_room_dimmer
+  variables:
+    light: light.bedroom_ceiling
+    player: media_player.desk_nest_mini
+  use_blueprint:
+    path: z2m-hue-dimmer.yaml
+    input:
+      helper_last_command: input_text.bedroom_dimmer_last_command
+      remote: sensor.bedroom_dimmer_action
+      on_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+      up_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+          data:
+            brightness_step_pct: 20
+            transition: 1
+      up_hold:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+          data:
+            brightness_step_pct: 10
+            transition: 1
+      down_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+          data:
+            brightness_step_pct: -20
+            transition: 1
+      down_hold:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+          data:
+            brightness_step_pct: -10
+            transition: 1
+      off_press:
+        - service: light.turn_off
+          target:
+            entity_id: "{{ light }}"
+      off_hold:
+        - condition: template
+          value_template: "{{ is_state('input_boolean.night_mode', 'off') }}"
+        - service: script.turn_on_night_mode_tts

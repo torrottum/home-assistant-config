@@ -1,0 +1,25 @@
+---
+# TODO: Maybe make this more generic/reusable
+turn_on_night_mode_tts:
+  alias: Turn on night mode and notify speaker
+  icon: mdi:sleep
+  variables:
+    speaker: media_player.bedroom_nest_mini
+    night_mode: input_boolean.night_mode
+    volume: 0.2
+  mode: single
+  max_exceeded: silent
+  sequence:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: "{{ night_mode }}"
+    - service: media_player.volume_set
+      data:
+        volume_level: "{{ volume }}"
+      target:
+        entity_id: "{{ speaker }}"
+    - service: tts.cloud_say
+      data:
+        entity_id: "{{ speaker }}"
+        message: Nattmodus aktivert
+        language: nb-NO

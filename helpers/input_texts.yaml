@@ -1,3 +1,6 @@
 ---
 living_room_dimmer_last_command:
   name: Living Room Dimmer Last Command
+
+bedroom_dimmer_last_command:
+  name: Bedroom Dimmer Last Command
