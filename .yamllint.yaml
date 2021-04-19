@@ -9,4 +9,5 @@ ignore: |
   secrets.yaml
   scenes.yaml
   zigbee2mqtt
-  scripts_ui.yaml
+  scripts.yaml
+  themes/
