@@ -1,6 +1,6 @@
 ---
 - alias: "Alarm clock: start music"
-  id: alarm_clock_start_music
+  id: b3e9fd9b-a5e4-44a1-acaa-b8f1adb791f1
   trigger:
     platform: time
     at: input_datetime.alarm_clock
@@ -44,7 +44,7 @@
         start_volume: "{{ volume }}"
 
 - alias: "Alarm clock: start local fallback if Spotify fails"
-  id: alarm_clock_start_fallback_music
+  id: 68c7cfd8-bb96-46fc-a580-f48812f13e6c
   trigger:
     platform: time
     at: input_datetime.alarm_clock
@@ -67,7 +67,7 @@
         entity_id: "{{ player }}"
 
 - alias: "Alarm clock: turn on coffee maker"
-  id: alarm_clock_turn_on_coffe_maker
+  id: 95252776-891a-48fd-b46a-26a3910cafe8
   trigger:
     platform: time
     at: input_datetime.alarm_clock
@@ -88,7 +88,7 @@
       entity_id: "{{ coffee_maker }}"
 
 - alias: "Alarm clock: set wake up light time to 30 mins before alarm"
-  id: alarm_clock_set_wakeup_light_time
+  id: 7fff5548-58a4-48eb-9024-5a9078b9c4b5
   trigger:
     platform: state
     entity_id: input_datetime.alarm_clock
@@ -107,7 +107,7 @@
       entity_id: input_datetime.wakeup_light
 
 - alias: "Alarm clock: wake up light"
-  id: alarm_clock_wakeup_light
+  id: ecea3b7b-fc93-4e42-869a-14ab4066824d
   trigger:
     platform: time
     at: input_datetime.wakeup_light

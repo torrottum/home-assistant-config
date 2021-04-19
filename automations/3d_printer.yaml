@@ -1,6 +1,6 @@
 ---
-- alias: Send notification when 3D print is done
-  id: send_notification_when_3d_print_is_done
+- alias: "3D printer: send notification when done"
+  id: a1f21b60-4e75-42dd-b32f-a24cbdf54129
   trigger:
     - platform: state
       entity_id: binary_sensor.ender_3_pro_printing

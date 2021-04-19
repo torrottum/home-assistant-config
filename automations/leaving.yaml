@@ -1,6 +1,6 @@
 ---
-- alias: Turn off everything when nobody is home
-  id: turn_off_everything_when_nobody_is_home
+- alias: "Leaving: Turn off everything when nobody is home"
+  id: 7a80a995-94c3-494d-9840-cc01ce50b268
   trigger:
     platform: state
     entity_id: binary_sensor.someone_home
@@ -8,8 +8,8 @@
   action:
     service: script.turn_off_everything
 
-- alias: Ask to turn off everything when leaving and guest mode is on
-  id: ask_to_turn_off_everything_when_leaving
+- alias: "Leaving: Ask to turn off everything when leaving and guest mode is on"
+  id: e69cb7f5-e479-465e-9472-37d11a4d8113
   trigger:
     platform: state
     entity_id: person.tor
@@ -26,8 +26,8 @@
         push:
           category: TURN_OFF_GUEST_MODE_OR_EVERYTHING
 
-- alias: Turn off everything on notification action
-  id: turn_off_everything_notification
+- alias: "Leaving: Turn off everything on notification action"
+  id: 0d9897b4-73b9-4125-920f-1069a49d6f88
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -37,8 +37,8 @@
   action:
     service: script.turn_off_everything
 
-- alias: Turn off guest mode on notification action
-  id: turn_off_guest_mode_notification
+- alias: "Leaving: Turn off guest mode on notification action"
+  id: 545ac4ad-3d83-4444-b9b6-e6e1873a6a3f
   trigger:
     platform: event
     event_type: ios.notification_action_fired

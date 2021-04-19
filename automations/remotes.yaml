@@ -1,6 +1,6 @@
 ---
 - alias: "Remote: Living Room Dimmer"
-  id: remote_living_room_dimmer
+  id: f1eb2bfe-a188-47fc-8bfc-a29448497337
   variables:
     ceiling: light.living_room_ceiling
     reading_lamp: light.reading_lamp
@@ -78,7 +78,7 @@
               - light.desk_lamp
 
 - alias: "Remote: Ansluta remote toggles kitchen lights"
-  id: ansluta_remote_toggles_kitchen_lights
+  id: b571b962-fe87-49b3-80bc-33c08710fea7
   trigger:
     - platform: event
       event_type: esphome.ansluta_remote_clicked
@@ -91,7 +91,7 @@
   mode: restart
 
 - alias: "Remote: Bedroom Dimmer"
-  id: bedroom_room_dimmer
+  id: d269d51a-1f60-498e-9681-9fed3dd0abde
   variables:
     light: light.bedroom_ceiling
     player: media_player.desk_nest_mini
