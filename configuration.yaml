@@ -6,6 +6,7 @@ logger:
   default: warning
   logs:
     custom_components.pyscript: info
+    homeassistant.helpers.template: critical
 
 tts:
   - platform: google_translate
