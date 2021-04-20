@@ -1,0 +1,205 @@
+---
+views:
+  - title: Home
+    path: home
+    icon: 'mdi:home'
+    type: 'custom:vertical-layout'
+    badges: []
+    cards:
+      - type: weather-forecast
+        entity: weather.home
+        show_forecast: false
+      - type: grid
+        cards:
+          - type: button
+            entity: switch.adaptive_lighting_default
+            name: Adaptive
+            show_name: false
+            tap_action:
+              action: call-service
+              service: adaptive_lighting.set_manual_control
+              service_data:
+                entity_id: switch.adaptive_lighting_default
+                manual_control: false
+            double_tap_action:
+              action: toggle
+            hold_action:
+              action: toggle
+          - type: button
+            entity: script.scene_reading
+            show_name: false
+            tap_action:
+              action: toggle
+            double_tap_action:
+              action: more-info
+          - type: button
+            entity: script.scene_cooking
+            show_name: false
+            tap_action:
+              action: toggle
+            double_tap_action:
+              action: more-info
+          - type: button
+            entity: input_boolean.night_mode
+            show_name: false
+            tap_action:
+              action: toggle
+            double_tap_action:
+              action: more-info
+          - type: button
+            tap_action:
+              action: toggle
+            entity: input_boolean.guest_mode
+            show_name: false
+            double_tap_action:
+              action: more-info
+        columns: 5
+      - type: grid
+        title: Lights
+        cards:
+          - type: button
+            entity: light.kitchen
+            double_tap_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                title: Kitchen
+                card:
+                  type: entities
+                  entities:
+                    - light.kitchen
+                    - light.kitchen_ceiling
+                    - type: 'custom:slider-entity-row'
+                      entity: light.kitchen_ceiling
+                      toggle: false
+                      full_row: true
+                      hide_when_off: true
+                    - type: 'custom:slider-entity-row'
+                      entity: light.kitchen_ceiling
+                      toggle: false
+                      attribute: color_temp
+                      full_row: true
+                      hide_when_off: true
+                    - light.kitchen_counter
+                    - type: 'custom:slider-entity-row'
+                      entity: light.kitchen_counter
+                      toggle: false
+                      full_row: true
+                      hide_when_off: true
+            hold_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                title: Kitchen
+                card:
+                  type: entities
+                  entities:
+                    - light.kitchen
+                    - light.kitchen_ceiling
+                    - type: 'custom:slider-entity-row'
+                      entity: light.kitchen_ceiling
+                      toggle: false
+                      full_row: true
+                      hide_when_off: true
+                    - type: 'custom:slider-entity-row'
+                      entity: light.kitchen_ceiling
+                      toggle: false
+                      attribute: color_temp
+                      full_row: true
+                      hide_when_off: true
+                    - light.kitchen_counter
+                    - type: 'custom:slider-entity-row'
+                      entity: light.kitchen_counter
+                      toggle: false
+                      full_row: true
+                      hide_when_off: true
+          - type: button
+            entity: light.living_room_ceiling
+            name: Living Room
+            tap_action:
+              action: toggle
+            press_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+          - type: button
+            name: Reading
+            entity: light.reading_lamp
+            tap_action:
+              action: toggle
+            press_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+          - type: button
+            entity: light.desk_lamp
+            tap_action:
+              action: toggle
+            press_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+          - type: button
+            entity: light.bedroom_ceiling
+            name: Bedroom
+            tap_action:
+              action: toggle
+            press_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+          - type: button
+            entity: light.bathroom_ceiling
+            name: Bathroom
+            tap_action:
+              action: toggle
+            press_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+        columns: 3
+        square: true
+      - type: 'custom:layout-break'
+      - type: 'custom:stack-in-card'
+        cards:
+          - type: conditional
+            conditions:
+              - entity: media_player.plex_tv
+                state_not: unavailable
+            card:
+              type: 'custom:mini-media-player'
+              volume_stateless: false
+              artwork: material
+              toggle_power: false
+              name: Plex TV
+              entity: media_player.plex_tv
+          - type: conditional
+            conditions:
+              - entity: media_player.plex_tv
+                state: unavailable
+            card:
+              type: 'custom:mini-media-player'
+              max_volume: '30'
+              source: full
+              entity: media_player.tv
+              artwork: none
+              sound_mode: icon
+              toggle_power: false
+          - type: 'custom:mini-media-player'
+            name: Desk speaker
+            volume_stateless: false
+            toggle_power: false
+            entity: media_player.desk_nest_mini
+            artwork: material
+          - type: 'custom:mini-media-player'
+            volume_stateless: false
+            artwork: material
+            toggle_power: false
+            name: Bedroom speaker
+            entity: media_player.bedroom_nest_mini
+      - type: 'custom:layout-break'
+      - type: entities
+        entities:
+          - entity: input_boolean.alarm_clock
+            name: Alarm clock
+          - entity: input_datetime.alarm_clock

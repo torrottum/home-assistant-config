@@ -27,6 +27,7 @@ scene_reading:
   icon: mdi:book-open
 scene_cooking:
   alias: Cooking
+  icon: mdi:food-variant
   sequence:
     - service: adaptive_lighting.set_manual_control
       data:
