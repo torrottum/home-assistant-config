@@ -1,0 +1,11 @@
+secrets.yaml
+home-assistant_v2.db*
+.storage
+tts
+zigbee2mqtt/*
+!zigbee2mqtt/devices.yaml
+!zigbee2mqtt/groups.yaml
+*.log
+__pycache__
+.vscode
+.cloud

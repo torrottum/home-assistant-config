@@ -1,0 +1,12 @@
+---
+extends: default
+
+ignore: |
+  automations.yaml
+  blueprints/
+  custom_components
+  secrets.yaml
+  scenes.yaml
+  zigbee2mqtt
+  scripts.yaml
+  themes/
