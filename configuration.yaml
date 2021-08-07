@@ -10,5 +10,4 @@ tts:
   - platform: google_translate
 
 group: !include groups.yaml
-script: !include scripts.yaml
 scene: !include scenes.yaml
