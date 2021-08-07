@@ -1,0 +1,8 @@
+---
+- id: 367f57ce-79d3-4a2f-88ef-976c5c217512
+  alias: "System: Commit updated custom components and .HA_VERSION"
+  trigger:
+    - platform: time_pattern
+      minutes: "/30"
+  action:
+    service: shell_command.add_updates

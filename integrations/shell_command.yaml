@@ -1,0 +1,3 @@
+---
+shell_command:
+  add_updates: /config/addupdates.sh
