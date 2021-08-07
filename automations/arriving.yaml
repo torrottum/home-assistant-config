@@ -1,0 +1,15 @@
+---
+- alias: "Arriving: Turn on living room lights"
+  id: 2cf7d2d2-f126-42d5-a8bc-7d999559a5f0
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.someone_home
+      from: "off"
+      to: "on"
+  condition:
+    - condition: sun
+      after: sunset
+      after_offset: -00:30:00
+  action:
+    - service: light.turn_on
+      entity_id: light.living_room_ceiling

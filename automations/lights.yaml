@@ -28,21 +28,6 @@
       target_entity:
         entity_id: light.storage_room
 
-- alias: "Light: Turn on living room lights when someone comes home"
-  id: 2cf7d2d2-f126-42d5-a8bc-7d999559a5f0
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.someone_home
-      from: "off"
-      to: "on"
-  condition:
-    - condition: sun
-      after: sunset
-      after_offset: -00:30:00
-  action:
-    - service: light.turn_on
-      entity_id: light.living_room_ceiling
-
 - alias: "Light: Turn on living room lights before sunset"
   id: 1b569ec7-e01f-46c0-9e95-4a12150119e7
   trigger:
