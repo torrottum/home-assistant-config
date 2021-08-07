@@ -1,0 +1,9 @@
+---
+- alias: "Coffee Maker: button turns outlet on/off"
+  id: a64dcde8-6970-4cc6-97fc-de9909c665bb
+  use_blueprint:
+    path: simple_on_off.yaml
+    input:
+      trigger_entity: sensor.coffee_maker_button_action
+      target_entity:
+        entity_id: switch.coffee_maker_outlet
