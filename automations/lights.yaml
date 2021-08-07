@@ -1,11 +1,12 @@
 ---
-# TODO: Move to pyscript and take door sensor into account
+# TODO: Move to pyscript and take door sensor into account?
 - alias: "Light: Bathroom motion sensor turns light on/off"
   id: 85d9f721-d1f2-42b3-b13e-5a1202a774cf
   use_blueprint:
     path: homeassistant/motion_light.yaml
     input:
-      no_motion_wait: "720" # Trådfri sensor, 3 min timeout + 720 sec = 15 min
+      # Trådfri sensor, 3 min timeout + 720 sec = 15 min
+      no_motion_wait: "720"
       motion_entity: binary_sensor.bathroom_motion_occupancy
       light_target:
         entity_id: light.bathroom_ceiling

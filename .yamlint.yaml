@@ -10,3 +10,4 @@ ignore: |
   zigbee2mqtt
   scripts.yaml
   themes/
+  .esphome/

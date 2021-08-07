@@ -55,76 +55,13 @@
             action: "{{ action_dismiss }}"
     - alias: Perform the action
       choose:
-        - conditions: "{{ wait.trigger.event.data.action == action_everything }}"
+        - conditions: >
+            "{{ wait.trigger.event.data.action == action_everything }}"
           sequence:
             service: script.turn_off_everything
-        - conditions: "{{ wait.trigger.event.data.action == action_guest_mode }}"
+        - conditions: >
+            "{{ wait.trigger.event.data.action == action_guest_mode }}"
           sequence:
             service: input_boolean.turn_off
             target:
               entity_id: input_boolean.guest_mode
-# - alias: "Perform the action"
-#   choose:
-#     - conditions: "{{ wait.trigger.event.data.action == action_open }}"
-#       sequence:
-#         - service: cover.open_cover
-#           target:
-#             entity_id: cover.some_cover
-#     - conditions: "{{ wait.trigger.event.data.action == action_close }}"
-#       sequence:
-#         - service: cover.close_cover
-#           target:
-#             entity_id: cover.some_cover
-
-# wait_for_trigger:
-#     - platform: event
-#       event_type: mobile_app_notification_action
-#       event_data:
-#         # waiting for the specific action avoids accidentally continuing
-#         # for another script/automation's notification action
-#         action: "{{ action_open }}"
-#     - platform: event
-#       event_type: mobile_app_notification_action
-#       event_data:
-#         action: "{{ action_close }}"
-# # inside a automation actions or script sequence
-# - alias: "Set up variables for the actions"
-#   variables:
-#     # Including an id in the action allows us to identify this script run
-#     # and not accidentally trigger for other notification actions
-#     action_open: "{{ 'OPEN_' ~ context.id }}"
-#     action_close: "{{ 'CLOSE_' ~ context.id }}"
-# - alias: "Ask to close or open the blinds"
-#   service: notify.mobile_app_<your_device>
-#   data:
-#     message: "The blinds are half-open. Do you want to adjust this?"
-#     data:
-#       actions:
-#         - action: "{{ action_open }}"
-#           title: Open
-#         - action: "{{ action_close }}"
-#           title: Close
-# - alias: "Wait for a response"
-#   wait_for_trigger:
-#     - platform: event
-#       event_type: mobile_app_notification_action
-#       event_data:
-#         # waiting for the specific action avoids accidentally continuing
-#         # for another script/automation's notification action
-#         action: "{{ action_open }}"
-#     - platform: event
-#       event_type: mobile_app_notification_action
-#       event_data:
-#         action: "{{ action_close }}"
-# - alias: "Perform the action"
-#   choose:
-#     - conditions: "{{ wait.trigger.event.data.action == action_open }}"
-#       sequence:
-#         - service: cover.open_cover
-#           target:
-#             entity_id: cover.some_cover
-#     - conditions: "{{ wait.trigger.event.data.action == action_close }}"
-#       sequence:
-#         - service: cover.close_cover
-#           target:
-#             entity_id: cover.some_cover
