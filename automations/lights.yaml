@@ -134,3 +134,16 @@
         entity_id: "{{ switch }}"
         lights: "{{ light }}"
         manual_control: false
+
+- id: 1fc5a536-8e48-4d30-832d-01bd492cdbd9
+  alias: "Light: Turn on desk lamp at 23:00"
+  trigger:
+    - platform: time
+      at: "23:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.night_mode
+      state: "off"
+  action:
+    service: light.turn_on
+    entity_id: light.desk_lamp
