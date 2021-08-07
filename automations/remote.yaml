@@ -1,0 +1,137 @@
+---
+- alias: "Remote: Living Room Dimmer"
+  id: f1eb2bfe-a188-47fc-8bfc-a29448497337
+  variables:
+    ceiling: light.living_room_ceiling
+    reading_lamp: light.reading_lamp
+  use_blueprint:
+    path: z2m_hue_dimmer.yaml
+    input:
+      helper_last_command: input_text.living_room_dimmer_last_command
+      remote: "sensor.living_room_dimmer_action"
+      on_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ ceiling }}"
+      on_press_double:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ reading_lamp }}"
+      up_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ ceiling }}"
+          data:
+            brightness_step_pct: 20
+            transition: 1
+      up_press_double:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ reading_lamp }}"
+          data:
+            brightness_step_pct: 20
+            transition: 1
+      up_hold:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ ceiling }}"
+          data:
+            brightness_step_pct: 10
+            transition: 1
+      down_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ ceiling }}"
+          data:
+            brightness_step_pct: -20
+            transition: 1
+      down_press_double:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ reading_lamp }}"
+          data:
+            brightness_step_pct: -20
+            transition: 1
+      down_hold:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ ceiling }}"
+          data:
+            brightness_step_pct: -10
+            transition: 1
+      off_press:
+        - service: light.turn_off
+          target:
+            entity_id: "{{ ceiling }}"
+      off_press_double:
+        - service: light.turn_off
+          target:
+            entity_id: "{{ reading_lamp }}"
+      off_hold:
+        - service: light.turn_off
+          target:
+            entity_id:
+              - "{{ ceiling }}"
+              - "{{ reading_lamp }}"
+              - light.kitchen
+              - light.bedroom_ceiling
+              - light.desk_lamp
+
+- alias: "Remote: Ansluta remote"
+  id: b571b962-fe87-49b3-80bc-33c08710fea7
+  trigger:
+    - platform: event
+      event_type: esphome.ansluta_remote_clicked
+      event_data:
+        address: 35c0
+  action:
+    - service: light.toggle
+      target:
+        entity_id: light.kitchen
+  mode: restart
+
+- alias: "Remote: Bedroom Dimmer"
+  id: d269d51a-1f60-498e-9681-9fed3dd0abde
+  variables:
+    light: light.bedroom_ceiling
+  use_blueprint:
+    path: z2m_hue_dimmer.yaml
+    input:
+      helper_last_command: input_text.bedroom_dimmer_last_command
+      remote: sensor.bedroom_dimmer_action
+      on_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+      up_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+          data:
+            brightness_step_pct: 20
+            transition: 1
+      up_hold:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+          data:
+            brightness_step_pct: 10
+            transition: 1
+      down_press:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+          data:
+            brightness_step_pct: -20
+            transition: 1
+      down_hold:
+        - service: light.turn_on
+          target:
+            entity_id: "{{ light }}"
+          data:
+            brightness_step_pct: -10
+            transition: 1
+      off_press:
+        - service: light.turn_off
+          target:
+            entity_id: "{{ light }}"

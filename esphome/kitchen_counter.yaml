@@ -1,0 +1,51 @@
+---
+  esphome:
+    name: kitchen_counter
+    platform: ESP8266
+    board: d1_mini
+  
+  
+  external_components:
+    - source: github://torrottum/ikea-ansluta-esphome@v2
+      components: [ ikea_ansluta ]
+  
+  wifi:
+    ssid: !secret wifi_ssid
+    password: !secret wifi_password
+  
+    ap:
+      ssid: "Ikea Ansluta Fallback Hotspot"
+      password: !secret ap_password
+  
+  captive_portal:
+  
+  logger:
+  
+  api:
+  
+  ota:
+  
+  spi:
+    clk_pin: GPIO14
+    miso_pin: GPIO12
+    mosi_pin: GPIO13
+  
+  ikea_ansluta:
+    cs_pin: GPIO15
+    on_remote_click:
+      then:
+        - homeassistant.event:
+            event: esphome.ansluta_remote_clicked
+            data:
+              address: !lambda 'char buffer [4];
+                return itoa(address, buffer, 16);'
+              command: !lambda 'char buffer [2];
+                return itoa(command, buffer, 16);'
+        - logger.log:
+            format: "Remote with address %#04x sent command %#02x"
+            args: ['address', 'command']
+  light:
+    - platform: ikea_ansluta
+      id: kitchen_light
+      name: 'Kitchen Counter'
+      address: 0xbeef

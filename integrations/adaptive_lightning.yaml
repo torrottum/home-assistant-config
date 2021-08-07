@@ -1,0 +1,11 @@
+# Adaptive Lightning config
+# TODO: Separate summmer and winter?
+---
+adaptive_lighting:
+  - name: Default
+    lights:
+      - light.living_room_ceiling
+      - light.kitchen
+      - light.bedroom_ceiling
+    detect_non_ha_changes: true
+    max_color_temp: 3125

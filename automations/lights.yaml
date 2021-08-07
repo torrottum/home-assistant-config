@@ -1,0 +1,153 @@
+---
+# TODO: Move to pyscript and take door sensor into account
+- alias: "Light: Bathroom motion sensor turns light on/off"
+  id: 85d9f721-d1f2-42b3-b13e-5a1202a774cf
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      no_motion_wait: "720" # Trådfri sensor, 3 min timeout + 720 sec = 15 min
+      motion_entity: binary_sensor.bathroom_motion_occupancy
+      light_target:
+        entity_id: light.bathroom_ceiling
+
+- alias: "Light: Entrance motion sensor turns light on/off"
+  id: 25f0948a-dc06-4043-9abf-3ce3404a4b47
+  use_blueprint:
+    path: simple_on_off.yaml
+    input:
+      trigger_entity: binary_sensor.entrance_motion_occupancy
+      target_entity:
+        entity_id: light.entrance_ceiling
+
+- alias: "Light: Storage room door sensor turns light on/off"
+  id: 7f996e73-f3d6-4f71-8c2c-487eb53f1ae4
+  use_blueprint:
+    path: simple_on_off.yaml
+    input:
+      trigger_entity: binary_sensor.storage_room_door_contact
+      target_entity:
+        entity_id: light.storage_room
+
+- alias: "Light: Turn on living room lights when someone comes home"
+  id: 2cf7d2d2-f126-42d5-a8bc-7d999559a5f0
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.someone_home
+      from: "off"
+      to: "on"
+  condition:
+    - condition: sun
+      after: sunset
+      after_offset: -00:30:00
+  action:
+    - service: light.turn_on
+      entity_id: light.living_room_ceiling
+
+- alias: "Light: Turn on living room lights before sunset"
+  id: 1b569ec7-e01f-46c0-9e95-4a12150119e7
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:30:00"
+  condition:
+    - condition: state
+      entity_id: binary_sensor.someone_home
+      state: "on"
+    - condition: state
+      entity_id: light.living_room_ceiling
+      state: "off"
+    - condition: state
+      entity_id: input_boolean.night_mode
+      state: "off"
+  action:
+    - service: light.turn_on
+      entity_id: light.living_room_ceiling
+
+- alias: "Light: Reading chair sensor turns reading lamp on/off"
+  id: 5cc2f8f1-d232-4f5b-8fd9-00dae98bb065
+  mode: restart
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.reading_chair_presence_contact
+      # State is flipped.
+      # The sensor is a contact sensor wired to a car seat pressure sensor
+      to: "off"
+  condition:
+    - condition: state
+      entity_id: light.reading_lamp
+      state: "off"
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: "off"
+  action:
+    - service: light.turn_on
+      entity_id: light.reading_lamp
+    - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.reading_chair_presence_contact
+          to: "on"
+          for: "00:00:10"
+    - service: light.turn_off
+      entity_id: light.reading_lamp
+
+- alias: "Light: Bedroom motion sensor turns bedroom lights on/off"
+  id: b0eb6171-508b-4593-af2e-b1c2b6b4132d
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bedroom_motion_occupancy
+    from: "off"
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: light.bedroom_ceiling
+      state: "off"
+  action:
+    - service: light.turn_on
+      target:
+        entity_id: light.bedroom_ceiling
+    - wait_for_trigger:
+        platform: state
+        entity_id: binary_sensor.bedroom_motion_occupancy
+        from: "on"
+        to: "off"
+    - delay: 240
+    - service: light.turn_off
+      target:
+        entity_id: light.bedroom_ceiling
+
+- alias: "Light: turn off bedroom lights after 2 hours"
+  id: 05ba2406-7b7c-44fb-a70c-a72f8c549e52
+  trigger:
+    platform: state
+    entity_id: light.bedroom_ceiling
+    from: "off"
+    to: "on"
+    for: "02:00:00"
+  condition:
+    - condition: "state"
+      entity_id: "binary_sensor.bedroom_motion_occupancy"
+      state: "off"
+  action:
+    - service: light.turn_off
+      target:
+        entity_id: light.bedroom_ceiling
+
+- alias: "Adaptive lighting: reset manual_control after 1 hour"
+  id: 946d8203-9622-47b7-b454-4a7a18e76f76
+  mode: parallel
+  max: 100
+  trigger:
+    - platform: event
+      event_type: adaptive_lighting.manual_control
+  variables:
+    light: "{{ trigger.event.data.entity_id }}"
+    switch: "{{ trigger.event.data.switch }}"
+  action:
+    - delay: "01:00:00"
+    - condition: template
+      value_template: "{{ light in state_attr(switch, 'manual_control') }}"
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: "{{ switch }}"
+        lights: "{{ light }}"
+        manual_control: false
