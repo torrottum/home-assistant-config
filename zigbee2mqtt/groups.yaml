@@ -1,0 +1,35 @@
+"1":
+  friendly_name: Bathroom Ceiling
+  retain: true
+  transition: 0.8
+  optimistic: true
+  devices:
+    - Bathroom Ceiling 1
+    - Bathroom Ceiling 2
+    - Bathroom Ceiling 3
+"2":
+  friendly_name: Living Room Ceiling
+  retain: true
+  transition: 0.8
+  optimistic: true
+  devices:
+    - Living Room Ceiling 1
+    - Living Room Ceiling 2
+    - Living Room Ceiling 3
+"3":
+  friendly_name: Kitchen Ceiling
+  retain: true
+  transition: 0.8
+  optimistic: true
+  devices:
+    - Kitchen Ceiling 1
+    - Kitchen Ceiling 2
+    - Kitchen Ceiling 3
+"4":
+  friendly_name: Bedroom Ceiling
+  optimistic: true
+  transition: 0.8
+  retrain: true
+  devices:
+    - Bedroom Ceiling 1
+    - Bedroom Ceiling 2
