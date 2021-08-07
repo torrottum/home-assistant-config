@@ -1,0 +1,8 @@
+---
+tors_iphone_bt:
+  icon:
+  mac: BT_58:E6:BA:23:A1:D4
+  name: Tor’s iPhone Bluetooth
+  picture:
+  track: true
+# Anything below this can be deleted

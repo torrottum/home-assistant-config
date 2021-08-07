@@ -2,6 +2,9 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+homeassistant:
+  packages: !include_dir_named integrations
+
 # Text to speech
 tts:
   - platform: google_translate
