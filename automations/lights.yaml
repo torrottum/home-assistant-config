@@ -5,8 +5,7 @@
   use_blueprint:
     path: homeassistant/motion_light.yaml
     input:
-      # Trådfri sensor, 3 min timeout + 720 sec = 15 min
-      no_motion_wait: "720"
+      no_motion_wait: "10"
       motion_entity: binary_sensor.bathroom_motion_occupancy
       light_target:
         entity_id: light.bathroom_ceiling
