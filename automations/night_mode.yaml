@@ -1,0 +1,14 @@
+---
+- id: 6a5c6bf3-f98f-4f99-87ee-1ecda3f069a5
+  alias: "Night mode: Night mode toggles adaptive lightning sleep mode"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.night_mode
+  action:
+    service: >
+      {% if trigger.to_state.state == "on" %}
+        switch.turn_on
+      {% else %}
+        switch.turn_off
+      {% endif %}
+    entity_id: switch.adaptive_lighting_sleep_mode_default
