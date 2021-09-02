@@ -24,11 +24,13 @@
             - service: tts.cloud_say
               data:
                 entity_id: "media_player.bathroom_nest_mini"
+                # Good morning Tor, rememmber to take your meds and fill your organizer for next week
                 message: "God morgen, Tor. Husk å ta medisin og fylle opp dosetten for neste uke"
       default:
         - service: tts.cloud_say
           data:
             entity_id: "media_player.bathroom_nest_mini"
-            message: "God morgen, Tor. Husk å ta medisin og fylle opp dosetten for neste uke"
+            # Good morning Tor, rememmber to take your meds
+            message: "God morgen, Tor. Husk å ta medisin"
     - delay:
         hours: 5
