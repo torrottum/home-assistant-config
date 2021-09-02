@@ -15,6 +15,7 @@ while read -r component; do
     continue;
   fi
 
+  git add "$component_path"
   new_version=$(jq -r '.version' "$manifest_path")
   if git status --porcelain "$manifest_path" | grep "^??"; then
     echo "Add '$component' version $new_version"
