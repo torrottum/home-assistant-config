@@ -76,3 +76,8 @@
   friendly_name: Turntable outlet
 "0x00158d0006a25c89":
   friendly_name: Bathroom Motion
+"0x00158d0006a24416":
+  friendly_name: Bathroom Motion 2
+  occupancy_timeout: 10
+"0x00158d0006d509a0":
+  friendly_name: Bathroom Cabinet Door
