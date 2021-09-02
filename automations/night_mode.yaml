@@ -12,3 +12,13 @@
         switch.turn_off
       {% endif %}
     entity_id: switch.adaptive_lighting_sleep_mode_default
+
+- id: 73f8f342-f652-4055-9a86-d0690d72d886
+  alias: "Night mode: Turn off night mode at 06:00"
+  trigger:
+    - platform: time
+      at: "06:00:00"
+  action:
+    service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.night_mode
