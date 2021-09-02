@@ -1,9 +1,6 @@
 ---
 - alias: "Guest mode: disable automations"
   id: 7d1a9ce5-cd62-440e-ac9a-a46cc0777395
-  variables:
-    automations:
-      - automation.light_reading_chair_sensor_turns_reading_lamp_on_off
   trigger:
     - platform: state
       entity_id: input_boolean.guest_mode
@@ -15,4 +12,4 @@
         automation.turn_on
       {% endif %}
     target:
-      entity_id: "{{ automations }}"
+      entity_id: group.automations_to_disable_in_guest_mode

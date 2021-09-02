@@ -1,0 +1,5 @@
+automations_to_disable_in_guest_mode:
+  name: Automations to disable in guest mode
+  entities:
+    - automation.tts_say_good_morning_when_bathroom_cabinet_is_opened
+    - automation.light_reading_chair_sensor_turns_reading_lamp_on_off

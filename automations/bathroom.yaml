@@ -1,0 +1,34 @@
+- id: 82992ceb-b69b-4958-b414-33cd80842442
+  alias: "TTS: Say good morning when bathroom cabinet is opened"
+  mode: single
+  max_exceeded: silent
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bathroom_cabinet_door_contact
+      from: "off"
+      to: "on"
+  condition:
+    - alias: "Morning, between 06:00 and 11:00"
+      condition: time
+      after: "06:00:00"
+      before: "11:00:00"
+  action:
+    - alias: "Remind to take medications and/or fill up depending on day"
+      choose:
+        - conditions:
+            - alias: "Is it Sunday?"
+              condition: time
+              weekday:
+                - "sun"
+          sequence:
+            - service: tts.cloud_say
+              data:
+                entity_id: "media_player.bathroom_nest_mini"
+                message: "God morgen, Tor. Husk å ta medisin og fylle opp dosetten for neste uke"
+      default:
+        - service: tts.cloud_say
+          data:
+            entity_id: "media_player.bathroom_nest_mini"
+            message: "God morgen, Tor. Husk å ta medisin og fylle opp dosetten for neste uke"
+    - delay:
+        hours: 5
