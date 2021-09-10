@@ -14,3 +14,10 @@ binary_sensor:
           {% else %}
             mdi:home
           {% endif %}
+      tv_active:
+        unique_id: tv_active
+        friendly_name: TV Active
+        value_template: >-
+          {{ states('sensor.tv_outlet_power') |
+          int > 30 or states('media_player.plex_tv') != 'unavailable'
+          }}
