@@ -23,9 +23,9 @@ while read -r component; do
       -m "add '$component' version $new_version [auto-commit]"
   else
     old_version=$(git show "HEAD:$manifest_path" | jq -r '.version')
-    echo "Update $component from $old_version to $new_version"
+    echo "Change $component from $old_version to $new_version"
     git commit --author="Tor Røttum <tor@torrottum.no>" \
-      -m "update $component from $old_version to $new_version [auto-commit]"
+      -m "Change $component from $old_version to $new_version [auto-commit]"
   fi
 done <<< "$components"
 
