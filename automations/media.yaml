@@ -1,5 +1,6 @@
 ---
-- alias: "Media: Turn on receiver when TV is used"
+- id: f352cf63-1e7f-4a9c-98dd-f08aba100108
+  alias: "Media: Turn on receiver when TV is used"
   trigger:
     - platform: state
       entity_id: binary_sensor.tv_active
