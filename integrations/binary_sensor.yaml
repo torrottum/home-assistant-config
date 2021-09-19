@@ -9,7 +9,8 @@ binary_sensor:
           {{ is_state('person.tor', 'home')
               or is_state('input_boolean.guest_mode', 'on') }}
         icon_template: >-
-          {% if is_state("binary_sensor.someone_home", "on") %}
+          {% if is_state('person.tor', 'home')
+              or is_state('input_boolean.guest_mode', 'on') %}
             mdi:home-account
           {% else %}
             mdi:home
