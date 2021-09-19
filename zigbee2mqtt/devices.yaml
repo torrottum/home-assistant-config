@@ -56,8 +56,7 @@
   friendly_name: Bedroom Dimmer
 "0x00158d00057f854f":
   friendly_name: Bedroom Motion
-"0x588e81fffe41c231":
-  friendly_name: Entrance Motion
+  occupancy_timeout: 65
 "0x680ae2fffefa3d8a":
   friendly_name: Coffee Maker Outlet
 "0x588e81fffe301c54":
@@ -73,7 +72,7 @@
 "0x04cf8cdf3c89c45a":
   friendly_name: Extractor fan outlet
 "0x54ef44100015cba0":
-  friendly_name: Turntable outlet
+  friendly_name: Dishwasher Outlet
 "0x00158d0006a25c89":
   friendly_name: Bathroom Motion
 "0x00158d0006a24416":
@@ -81,3 +80,19 @@
   occupancy_timeout: 10
 "0x00158d0006d509a0":
   friendly_name: Bathroom Cabinet Door
+"0x0017880109e16c5e":
+  friendly_name: Bed Reading Light
+"0x04cf8cdf3c7d5d4c":
+  friendly_name: "0x04cf8cdf3c7d5d4c"
+"0x00158d0006792629":
+  friendly_name: LackRack Button
+"0x60a423fffef6b169":
+  friendly_name: Bathroom remote
+"0x00158d0006b7be88":
+  friendly_name: Entrance Motion
+"0x588e81fffeadd19d":
+  friendly_name: Turntable Outlet
+"0x00158d0006b27ffd":
+  friendly_name: Living room and kitchen
+"0x54ef441000139235":
+  friendly_name: Washing Machine Outlet
