@@ -1,0 +1,76 @@
+- id: d9acaee1-ecc9-45b9-b6f8-5e2b64ae4239
+  alias: "Vacuum: start cleaning when nobody home"
+  trigger:
+    - platform: time
+      at: "12:00:00"
+    - platform: state
+      entity_id: binary_sensor.someone_home
+      from: "on"
+      to: "off"
+  condition:
+    - alias: "Nobody home"
+      condition: state
+      entity_id: binary_sensor.someone_home
+      state: "off"
+    - alias: "Have not vacuumed today"
+      condition: state
+      entity_id: input_boolean.vacuumed_today
+      state: "off"
+  action:
+    - alias: "Start robot vacuum"
+      service: vacuum.start
+      target:
+        entity_id: vacuum.roborock_s6_maxv
+
+- id: 3edb407a-fac0-4619-9d05-0da46f929535
+  alias: "Vacuum: Started cleaning"
+  trigger:
+    - platform: state
+      entity_id: vacuum.roborock_s6_maxv
+      from: "docked"
+      to: "cleaning"
+  action:
+    - alias: "Notify iPhone"
+      service: notify.mobile_app_tors_iphone
+      data:
+        title: "Robot vacuum started"
+        message: "Started cleaning"
+
+- id: 6169502c-aa20-4666-941f-894c1205f19a
+  alias: "Vacuum: Finished cleaning and returning"
+  trigger:
+    - platform: state
+      entity_id: vacuum.roborock_s6_maxv
+      from: "cleaning"
+      to: "returning"
+  action:
+    - alias: "Notify iPhone"
+      service: notify.mobile_app_tors_iphone
+      data:
+        title: "Robot vacuum finished"
+        message: >
+          Cleaned
+          {{ state_attr("vacuum.roborock_s6_maxv","cleaned_area") }}
+          m2 in
+          {{ state_attr("vacuum.roborock_s6_maxv","cleaning_time") }} mins
+        data:
+          image: /local/map_image_roborock.vacuum.a10.png
+    - alias: "Turn vacuumed today helper on"
+      service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.vacuumed_today
+    - alias: "Turn emptied vacuum helper off"
+      service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.emptied_vacuum
+
+- id: 64e6e0c5-b94d-4158-8981-8db47efaa1af
+  alias: "Vacuum: Reset vacuumed today helper at 00:00"
+  trigger:
+    - platform: time
+      at: "00:00:00"
+  action:
+    - alias: "Turn vacuumed today helper off"
+      service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.vacuumed_today

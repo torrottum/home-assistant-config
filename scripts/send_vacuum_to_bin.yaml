@@ -1,0 +1,26 @@
+---
+send_vaccuum_to_bin:
+  alias: "Send vacuum to bin"
+  sequence:
+    - variables:
+        notify_on: "{{ states('automation.vaccum_notify_started_cleaning') == 'on' }}"
+    - choose:
+        - conditions: "{{ notify_on }}"
+          sequence:
+            - service: automation.turn_off
+              entity_id: automation.vaccum_notify_started_cleaning
+    - service: xiaomi_miio.vacuum_goto
+      data:
+        x_coord: 23180
+        y_coord: 31500
+      target:
+        entity_id: vacuum.roborock_s6_maxv
+    - wait_for_trigger:
+        - platform: state
+          entity_id: vacuum.roborock_s6_maxv
+          to: "cleaning"
+    - choose:
+        - conditions: "{{ notify_on }}"
+          sequence:
+            - service: automation.turn_on
+              entity_id: automation.vaccum_notify_started_cleaning

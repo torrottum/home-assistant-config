@@ -13,3 +13,69 @@
   action:
     - service: light.turn_on
       entity_id: light.living_room_ceiling
+
+- id: 91255b91-795c-44e3-8f2c-e582066ea5b2
+  alias: "Arriving: Return vacuum to dock"
+  mode: restart
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.someone_home
+      from: "off"
+      to: "on"
+  condition:
+    - alias: "Is vacuum cleaning?"
+      condition: state
+      entity_id: vacuum.roborock_s6_maxv
+      state: "cleaning"
+  action:
+    - service: vacuum.return_to_base
+      entity_id: vacuum.roborock_s6_maxv
+
+- id: 0fd5f79b-4543-4fa4-8e3e-5178b74813a5
+  alias: "Arriving: Ask to empty vacuum bin if cleaned and not emptied"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.someone_home
+      from: "off"
+      to: "on"
+  condition:
+    - alias: "Vacuumed today?"
+      condition: state
+      entity_id: input_boolean.vacuumed_today
+      state: "on"
+    - alias: "Vacuum bin is not emptied"
+      condition: state
+      entity_id: input_boolean.emptied_vacuum
+      state: "off"
+  action:
+    - alias: "Set up variables"
+      variables:
+        action_confirm: "{{ 'CONFIRM_' ~ context.id }}"
+        action_dismiss: "{{ 'DISMISS_' ~ context.id }}"
+    - service: notify.mobile_app_tors_iphone
+      data:
+        title: Vacuum bin needs emptying
+        message: Do you want to empty the vacuum?
+        data:
+          actions:
+            - action: "{{ action_confirm }}"
+              title: Send vacuum to trash bin
+            - action: "{{ action_dismiss }}"
+              title: Dismiss
+    - alias: Wait for response
+      wait_for_trigger:
+        - platform: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "{{ action_confirm }}"
+        - platform: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "{{ action_dismiss }}"
+    - alias: Perform the action
+      choose:
+        - conditions: "{{ wait.trigger.event.data.action == action_confirm }}"
+          sequence:
+            - service: script.send_vaccuum_to_bin
+            - service: input_boolean.turn_on
+              entity_id: input_boolean.emptied_vacuum

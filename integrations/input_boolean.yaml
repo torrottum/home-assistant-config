@@ -6,3 +6,9 @@ input_boolean:
   night_mode:
     name: Night mode
     icon: mdi:sleep
+  vacuumed_today:
+    name: Vacuumed today
+    icon: mdi:robot-vacuum
+  emptied_vacuum:
+    name: Emptied vacuum bin
+    icon: mdi:trash-can
