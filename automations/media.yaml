@@ -16,14 +16,18 @@
       entity_id: media_player.living_room_receiver
       data:
         source: optical
-- id: d5bacd86-f6d4-49e5-827f-4bc8c467119c
-  alias: "Media: Turn off TV when Plex has been paused for 30 minutes"
+- id: 9e8c6cc2-df96-41ac-b2f1-f1a74a0e8e07
+  alias: "Media: Turn off TV when Plex has been paused or idle for 15 minutes"
   trigger:
     - platform: state
       entity_id: media_player.plex_tv
       from: "playing"
       to: "paused"
-      for: "00:30:00"
+      for: "00:15:00"
+    - platform: state
+      entity_id: media_player.plex_tv
+      to: "idle"
+      for: "00:15:00"
   action:
     - alias: "Turn the TV off"
       service: media_player.turn_off
