@@ -22,3 +22,14 @@ binary_sensor:
           {{ states('sensor.tv_outlet_power') |
           int > 30 or states('media_player.plex_tv') != 'unavailable'
           }}
+      kitchen_extractor_fan:
+        unique_id: kitchen_extractor_fan
+        friendly_name: Kitchen extractor fan
+        value_template: >-
+          {{ states('sensor.extractor_fan_outlet_power') | int > 30 }}
+        icon_template: >-
+          {% if states('sensor.extractor_fan_outlet_power') | int > 30 %}
+            mdi:fan
+          {% else %}
+            mdi:fan-off
+          {% endif %}
