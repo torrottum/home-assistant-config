@@ -1,0 +1,4 @@
+notify:
+  - platform: telegram
+    name: telegram_tor
+    chat_id: !secret telegram_id_tor
