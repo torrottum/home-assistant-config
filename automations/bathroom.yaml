@@ -57,3 +57,35 @@
           entity_id: sensor.bathroom_temperature_and_humidity_humidity
           below: 80
           for: "00:01:00"
+
+# TODO: Fix this, it's a bit wonky
+- id: 76ca785d-94d4-4095-9077-e278116611dc
+  alias: "Bathroom: Play radio when door is closed"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.0x00158d0004a97645_contact
+      from: "on"
+      to: "off"
+  condition:
+    - alias: "Motion"
+      condition: state
+      entity_id: group.bathroom_motion
+      state: "on"
+  action:
+    - service: media_player.play_media
+      data:
+        media_content_id: http://lyd.nrk.no/nrk_radio_p13_aac_h?_hdr=0
+        media_content_type: music
+      target:
+        entity_id: media_player.bathroom_nest_mini
+    - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.0x00158d0004a97645_contact
+          to: "on"
+    - service: media_player.media_stop
+      target:
+        entity_id: media_player.bathroom_nest_mini
+    - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.0x00158d0004a97645_contact
+          to: "off"
