@@ -80,12 +80,12 @@
         entity_id: media_player.bathroom_nest_mini
     - wait_for_trigger:
         - platform: state
-          entity_id: binary_sensor.0x00158d0004a97645_contact
+          entity_id: binary_sensor.bathroom_door_contact
           to: "on"
     - service: media_player.media_stop
       target:
         entity_id: media_player.bathroom_nest_mini
     - wait_for_trigger:
         - platform: state
-          entity_id: binary_sensor.0x00158d0004a97645_contact
+          entity_id: binary_sensor.bathroom_door_contact
           to: "off"
