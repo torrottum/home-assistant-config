@@ -16,6 +16,26 @@
       entity_id: media_player.living_room_receiver
       data:
         source: optical
+
+- id: 823f8b4c-0ece-4f4e-90fa-e277c48fc493
+  alias: "Media: Turn off Receiver when TV turns off"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.tv_active
+      from: "on"
+      to: "off"
+  condition:
+    - alias: "Receiver source is optical"
+      condition: state
+      entity_id: media_player.living_room_receiver
+      attribute: "source"
+      state: "optical"
+  action:
+    - alias: "Turn off receiver"
+      service: media_player.turn_off
+      target:
+        entity_id: media_player.living_room_receiver
+
 - id: 9e8c6cc2-df96-41ac-b2f1-f1a74a0e8e07
   alias: "Media: Turn off TV when Plex has been paused or idle for 15 minutes"
   trigger:
