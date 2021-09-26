@@ -147,26 +147,40 @@
     service: light.turn_on
     entity_id: light.desk_lamp
 
-# TODO: Use cooking scene instead
 - id: 0f080c8a-77a0-4d7b-9295-15d1eafac88d
   alias: "Light: turn on kitchen lights when fan is on"
   trigger:
-    - platform: numeric_state
-      entity_id: sensor.extractor_fan_outlet_power
-      above: "30"
-  condition:
-    - condition: state
-      entity_id: light.kitchen_counter
-      state: "off"
+    - platform: state
+      entity_id: binary_sensor.kitchen_extractor_fan
+      to: "on"
   action:
-    - service: light.turn_on
+    - service: scene.create
+      data:
+        scene_id: kitchen_before_cooking
+        snapshot_entities:
+          - light.kitchen_counter
+          - light.kitchen_ceiling
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: switch.adaptive_lighting_default
+        lights: light.kitchen
+    - service: scene.turn_on
+      data:
+        transition: 5
       target:
-        entity_id: light.kitchen
+        entity_id: scene.cooking
     - wait_for_trigger:
-        - platform: numeric_state
-          entity_id: sensor.extractor_fan_outlet_power
-          below: "30"
-    - service: light.turn_off
+        - platform: state
+          entity_id: binary_sensor.kitchen_extractor_fan
+          to: "off"
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: switch.adaptive_lighting_default
+        lights: light.kitchen
+        manual_control: false
+    - service: scene.turn_on
+      data:
+        transition: 5
       target:
-        entity_id: light.kitchen
-  mode: single
+        entity_id: scene.kitchen_before_cooking
+  mode: restart

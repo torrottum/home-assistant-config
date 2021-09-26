@@ -1,0 +1,3 @@
+---
+scene ui: !include ../scenes.yaml
+scene manual: !include_dir_list ../scenes
