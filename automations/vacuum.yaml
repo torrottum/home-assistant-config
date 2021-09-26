@@ -12,6 +12,10 @@
       condition: state
       entity_id: binary_sensor.someone_home
       state: "off"
+    - alias: "After 11:59:00 and before 21:45"
+      condition: time
+      after: "11:59:00"
+      before: "21:45:00"
     - alias: "Have not vacuumed today"
       condition: state
       entity_id: input_boolean.vacuumed_today
@@ -30,31 +34,29 @@
       from: "docked"
       to: "cleaning"
   action:
-    - alias: "Notify iPhone"
-      service: notify.mobile_app_tors_iphone
+    - alias: "Notify Telegram"
+      service: notify.telegram_tor
       data:
-        title: "Robot vacuum started"
-        message: "Started cleaning"
+        title: "*Robot Vacuum*"
+        message: "Started cleaning ..."
 
 - id: 6169502c-aa20-4666-941f-894c1205f19a
-  alias: "Vacuum: Finished cleaning and returning"
+  alias: "Vacuum: Finished cleaning"
   trigger:
     - platform: state
       entity_id: vacuum.roborock_s6_maxv
-      from: "cleaning"
-      to: "returning"
+      from: "returning"
+      to: "docked"
   action:
-    - alias: "Notify iPhone"
-      service: notify.mobile_app_tors_iphone
+    - alias: "Notify Telgram"
+      service: notify.telegram_tor
       data:
-        title: "Robot vacuum finished"
+        title: "*Robot vacuum*"
         message: >
           Cleaned
           {{ state_attr("vacuum.roborock_s6_maxv","cleaned_area") }}
           m2 in
           {{ state_attr("vacuum.roborock_s6_maxv","cleaning_time") }} mins
-        data:
-          image: /local/map_image_roborock.vacuum.a10.png
     - alias: "Turn vacuumed today helper on"
       service: input_boolean.turn_on
       target:
