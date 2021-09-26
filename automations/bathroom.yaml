@@ -89,3 +89,52 @@
         - platform: state
           entity_id: binary_sensor.bathroom_door_contact
           to: "off"
+
+- id: 1fd54a87-ef13-465b-a335-3fa17b18bef5
+  alias: "Bathroom: Notify when humidity is high and door is open"
+  mode: single
+  max_exceeded: warn
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bathroom_door_contact
+      to: "on"
+      for: "00:00:30"
+    - platform: numeric_state
+      entity_id: sensor.bathroom_temperature_and_humidity_humidity
+      above: 65
+  condition:
+    - alias: "Humidity is over 65"
+      condition: numeric_state
+      entity_id: sensor.bathroom_temperature_and_humidity_humidity
+      above: 65
+    - alias: "Door is open"
+      condition: state
+      entity_id: binary_sensor.bathroom_door_contact
+      state: "on"
+    - alias: "Someone home"
+      condition: state
+      entity_id: binary_sensor.someone_home
+      state: "on"
+  action:
+    - alias: "Notify every 5 minutes while door is open"
+      repeat:
+        while:
+          - alias: "Humidity is over 65"
+            condition: numeric_state
+            entity_id: sensor.bathroom_temperature_and_humidity_humidity
+            above: 65
+          - alias: "Door is open"
+            condition: state
+            entity_id: binary_sensor.bathroom_door_contact
+            state: "on"
+        sequence:
+          - alias: "Notify telegram"
+            service: notify.telegram_tor
+            data:
+              title: "*High humidity in bathroom and door is open*"
+              message: >
+                Humidity is
+                {{ states('sensor.bathroom_temperature_and_humidity_humidity') }}%.
+                You should close the door!
+          - delay:
+              minutes: 5
