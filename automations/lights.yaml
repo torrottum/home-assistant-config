@@ -13,10 +13,10 @@
 - alias: "Light: Entrance motion sensor turns light on/off"
   id: 25f0948a-dc06-4043-9abf-3ce3404a4b47
   use_blueprint:
-    path: simple_on_off.yaml
+    path: homeassistant/motion_light.yaml
     input:
-      trigger_entity: binary_sensor.entrance_motion_occupancy
-      target_entity:
+      motion_entity: binary_sensor.entrance_motion_occupancy
+      light_target:
         entity_id: light.entrance_ceiling
 
 - alias: "Light: Storage room door sensor turns light on/off"
