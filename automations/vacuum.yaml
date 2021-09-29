@@ -45,8 +45,8 @@
   trigger:
     - platform: state
       entity_id: vacuum.woodhouse
-      from: "returning"
-      to: "docked"
+      from: "cleaning"
+      to: "returning"
   action:
     - alias: "Notify Telgram"
       service: notify.telegram_tor
