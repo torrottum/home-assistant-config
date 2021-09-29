@@ -56,6 +56,12 @@
         flash: long
       target:
         entity_id: light.bathroom_ceiling
+    # I think this automation might be triggered when I dry clothes
+    - alias: "Send Telegram notification (for tracking purposes)"
+      service: notify.telegram_tor
+      data:
+        title: "*Shower time is up!*"
+        message: "Bathroom humidity has been over 80 for 5 minutes"
     - alias: "Wait for humidity to go down"
       wait_for_trigger:
         - platform: numeric_state
