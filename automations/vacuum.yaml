@@ -83,3 +83,11 @@
       service: input_boolean.turn_off
       target:
         entity_id: input_boolean.vacuumed_today
+
+- id: 5f895575-5ec0-460c-875d-6c50265d6da6
+  alias: "Vacuum: Disable vacuum camera update when docked"
+  use_blueprint:
+    path: PiotrMachowski/disable_vacuum_camera_update_when_docked.yaml
+    input:
+      vacuum: vacuum.woodhouse
+      camera: camera.xiaomi_cloud_map_extractor

@@ -8,6 +8,7 @@ camera:
     attributes:
       - calibration_points
     store_map_image: on
+    auto_update: off
     map_transformation:
       rotate: 90
       scale: 3
