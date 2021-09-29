@@ -44,6 +44,11 @@
       entity_id: sensor.bathroom_temperature_and_humidity_humidity
       above: 80
       for: "00:05:00"
+  condition:
+    - alias: "Light is on"
+      condition: state
+      entity_id: light.bathroom_ceiling
+      state: "on"
   action:
     - alias: "Blink lights"
       service: light.turn_on
