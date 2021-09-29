@@ -24,13 +24,13 @@
     - alias: "Start robot vacuum"
       service: vacuum.start
       target:
-        entity_id: vacuum.roborock_s6_maxv
+        entity_id: vacuum.woodhouse
 
 - id: 3edb407a-fac0-4619-9d05-0da46f929535
   alias: "Vacuum: Started cleaning"
   trigger:
     - platform: state
-      entity_id: vacuum.roborock_s6_maxv
+      entity_id: vacuum.woodhouse
       from: "docked"
       to: "cleaning"
   action:
@@ -44,7 +44,7 @@
   alias: "Vacuum: Finished cleaning"
   trigger:
     - platform: state
-      entity_id: vacuum.roborock_s6_maxv
+      entity_id: vacuum.woodhouse
       from: "returning"
       to: "docked"
   action:
@@ -54,9 +54,9 @@
         title: "*Robot vacuum*"
         message: >
           Cleaned
-          {{ state_attr("vacuum.roborock_s6_maxv","cleaned_area") }}
+          {{ state_attr("vacuum.woodhouse","cleaned_area") }}
           m2 in
-          {{ state_attr("vacuum.roborock_s6_maxv","cleaning_time") }} mins
+          {{ state_attr("vacuum.woodhouse","cleaning_time") }} mins
     - alias: "Turn vacuumed today helper on"
       service: input_boolean.turn_on
       target:

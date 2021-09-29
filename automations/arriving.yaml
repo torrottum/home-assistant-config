@@ -25,11 +25,11 @@
   condition:
     - alias: "Is vacuum cleaning?"
       condition: state
-      entity_id: vacuum.roborock_s6_maxv
+      entity_id: vacuum.woodhouse
       state: "cleaning"
   action:
     - service: vacuum.return_to_base
-      entity_id: vacuum.roborock_s6_maxv
+      entity_id: vacuum.woodhouse
 
 - id: 0fd5f79b-4543-4fa4-8e3e-5178b74813a5
   alias: "Arriving: Ask to empty vacuum bin if cleaned and not emptied"

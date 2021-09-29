@@ -14,10 +14,10 @@ send_vaccuum_to_bin:
         x_coord: 23180
         y_coord: 31500
       target:
-        entity_id: vacuum.roborock_s6_maxv
+        entity_id: vacuum.woodhouse
     - wait_for_trigger:
         - platform: state
-          entity_id: vacuum.roborock_s6_maxv
+          entity_id: vacuum.woodhouse
           to: "cleaning"
     - choose:
         - conditions: "{{ notify_on }}"
