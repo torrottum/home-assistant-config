@@ -37,8 +37,8 @@
     - alias: "Notify Telegram"
       service: notify.telegram_tor
       data:
-        title: "*Robot Vacuum*"
-        message: "Started cleaning ..."
+        title: "*🤖Woodhouse*"
+        message: "I have started cleaning, sir"
 
 - id: 6169502c-aa20-4666-941f-894c1205f19a
   alias: "Vacuum: Finished cleaning"
@@ -51,12 +51,17 @@
     - alias: "Notify Telgram"
       service: notify.telegram_tor
       data:
-        title: "*Robot vacuum*"
+        title: "*🤖Woodhouse*"
         message: >
-          Cleaned
+          I have finished cleaning, sir. I cleaned
           {{ state_attr("vacuum.woodhouse","cleaned_area") }}
           m2 in
-          {{ state_attr("vacuum.woodhouse","cleaning_time") }} mins
+          {{ state_attr("vacuum.woodhouse","cleaning_time") }} mins.
+          Here's the map:
+        data:
+          photo:
+            - file: /tmp/map_image_roborock.vacuum.a10.png
+
     - alias: "Turn vacuumed today helper on"
       service: input_boolean.turn_on
       target:
