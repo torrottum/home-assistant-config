@@ -1,0 +1,32 @@
+template:
+  # TODO: Split into separate files?
+  - binary_sensor:
+      name: "Someone home"
+      state: >
+        {{ is_state('person.tor', 'home')
+            or is_state('input_boolean.guest_mode', 'on') }}
+      unique_id: someone_home
+      icon: >
+        {% if is_state('binary_sensor.someone_home', 'on') %}
+          mdi:home-account
+        {% else %}
+          mdi:home
+        {% endif %}
+  - binary_sensor:
+      name: "TV active"
+      unique_id: tv_active
+      state: >
+        {% set tv_power = states('sensor.tv_outlet_power') | int %}
+        {% set plex_status = states('media_player.plex_tv') %}
+        {{ tv_power > 30 or plex_status != 'unavailable' }}
+  - binary_sensor:
+      name: "Kitchen extractor fan active"
+      unique_id: kitchen_extractor_fan_active
+      state: >
+        {{ states('sensor.extractor_fan_outlet_power') | int > 30 }}
+      icon: >
+        {% if is_state('binary_sensor.kitchen_extractor_fan_active', 'on') %}
+          mdi:fan
+        {% else %}
+          mdi:fan-off
+        {% endif %}

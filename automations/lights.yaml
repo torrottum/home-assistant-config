@@ -151,7 +151,7 @@
   alias: "Light: turn on kitchen lights when fan is on"
   trigger:
     - platform: state
-      entity_id: binary_sensor.kitchen_extractor_fan
+      entity_id: binary_sensor.kitchen_extractor_fan_active
       to: "on"
   action:
     - service: scene.create
@@ -171,7 +171,7 @@
         entity_id: scene.cooking
     - wait_for_trigger:
         - platform: state
-          entity_id: binary_sensor.kitchen_extractor_fan
+          entity_id: binary_sensor.kitchen_extractor_fan_active
           to: "off"
     - service: adaptive_lighting.set_manual_control
       data:
