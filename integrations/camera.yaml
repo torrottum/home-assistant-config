@@ -7,5 +7,13 @@ camera:
     draw: ["all"]
     attributes:
       - calibration_points
-    store_map_image: "true"
-    store_map_path: /media
+    store_map_image: on
+    map_transformation:
+      rotate: 90
+      scale: 3
+      trim:
+        top: 35
+        left: 26
+        right: 25
+        # TODO, map the entrance, leaving extra space
+        bottom: 20
