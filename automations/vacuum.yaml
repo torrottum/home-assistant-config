@@ -12,7 +12,7 @@
       condition: state
       entity_id: binary_sensor.someone_home
       state: "off"
-    - alias: "After 11:59:00 and before 21:45"
+    - alias: "Between 11:59 and 21:45"
       condition: time
       after: "11:59:00"
       before: "21:45:00"
