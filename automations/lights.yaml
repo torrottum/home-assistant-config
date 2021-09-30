@@ -114,26 +114,6 @@
       target:
         entity_id: light.bedroom_ceiling
 
-- alias: "Adaptive lighting: reset manual_control after 1 hour"
-  id: 946d8203-9622-47b7-b454-4a7a18e76f76
-  mode: parallel
-  max: 100
-  trigger:
-    - platform: event
-      event_type: adaptive_lighting.manual_control
-  variables:
-    light: "{{ trigger.event.data.entity_id }}"
-    switch: "{{ trigger.event.data.switch }}"
-  action:
-    - delay: "01:00:00"
-    - condition: template
-      value_template: "{{ light in state_attr(switch, 'manual_control') }}"
-    - service: adaptive_lighting.set_manual_control
-      data:
-        entity_id: "{{ switch }}"
-        lights: "{{ light }}"
-        manual_control: false
-
 - id: 1fc5a536-8e48-4d30-832d-01bd492cdbd9
   alias: "Light: Turn on desk lamp at 23:00"
   trigger:
@@ -149,10 +129,18 @@
 
 - id: 0f080c8a-77a0-4d7b-9295-15d1eafac88d
   alias: "Light: turn on kitchen lights when fan is on"
+  mode: single
   trigger:
     - platform: state
       entity_id: binary_sensor.kitchen_extractor_fan_active
       to: "on"
+    - platform: homeassistant
+      event: start
+  condition:
+    - alias: "Kitchen fan is on"
+      condition: state
+      entity_id: binary_sensor.kitchen_extractor_fan_active
+      state: "on"
   action:
     - service: scene.create
       data:
@@ -160,10 +148,9 @@
         snapshot_entities:
           - light.kitchen_counter
           - light.kitchen_ceiling
-    - service: adaptive_lighting.set_manual_control
-      data:
-        entity_id: switch.adaptive_lighting_default
-        lights: light.kitchen
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_kitchen
     - service: scene.turn_on
       data:
         transition: 5
@@ -173,14 +160,12 @@
         - platform: state
           entity_id: binary_sensor.kitchen_extractor_fan_active
           to: "off"
-    - service: adaptive_lighting.set_manual_control
-      data:
-        entity_id: switch.adaptive_lighting_default
-        lights: light.kitchen
-        manual_control: false
     - service: scene.turn_on
-      data:
-        transition: 5
       target:
         entity_id: scene.kitchen_before_cooking
-  mode: restart
+    - condition: state
+      entity_id: input_boolean.adaptive_lightning_master
+      state: "on"
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_kitchen

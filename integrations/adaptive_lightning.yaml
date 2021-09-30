@@ -2,10 +2,18 @@
 # TODO: Separate summmer and winter?
 ---
 adaptive_lighting:
-  - name: Default
+  - &defaults
+    name: Living Room
     lights:
       - light.living_room_ceiling
-      - light.kitchen
+    max_color_temp: 2650
+    min_brightness: 60
+  - <<: *defaults
+    name: Kitchen
+    lights:
+      - light.kitchen_ceiling
+      - light.kitchen_counter
+  - <<: *defaults
+    name: Bedroom
+    lights:
       - light.bedroom_ceiling
-    detect_non_ha_changes: true
-    max_color_temp: 3125

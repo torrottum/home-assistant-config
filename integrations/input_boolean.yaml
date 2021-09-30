@@ -12,3 +12,6 @@ input_boolean:
   emptied_vacuum:
     name: Emptied vacuum bin
     icon: mdi:trash-can
+  adaptive_lightning_master:
+    name: Adaptive Lightning Master
+    icon: mdi:theme-light-dark

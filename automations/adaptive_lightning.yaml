@@ -1,0 +1,56 @@
+---
+- id: 2b6a5cf7-d48e-46f4-b6de-0a9d87edac28
+  alias: "Adaptive lightning: Night mode turns sleep mode on/off"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.night_mode
+    - platform: homeassistant
+      event: start
+  action:
+    - variables:
+        night_mode: "{{ states('input_boolean.night_mode') }}"
+    - service: "switch.turn_{{ night_mode }}"
+      entity_id:
+        - switch.adaptive_lighting_sleep_mode_living_room
+        - switch.adaptive_lighting_sleep_mode_kitchen
+        - switch.adaptive_lighting_sleep_mode_bedroom
+
+- id: 87200ceb-5ac6-496b-ab3e-99c17af2a4ce
+  alias: "Adaptive Lightning: Master toggle"
+  mode: restart
+  max_exceeded: silent
+  trigger:
+    - platform: state
+      entity_id: input_boolean.adaptive_lightning_master
+    - platform: homeassistant
+      event: start
+  action:
+    - variables:
+        helper_state: "{{ states('input_boolean.adaptive_lightning_master') }}"
+    - alias: "Set switches"
+      service: "switch.turn_{{ helper_state }}"
+      target:
+        entity_id:
+          - switch.adaptive_lighting_living_room
+          - switch.adaptive_lighting_kitchen
+          - switch.adaptive_lighting_bedroom
+
+- alias: "Adaptive lighting: reset manual_control after 1 hour"
+  id: 946d8203-9622-47b7-b454-4a7a18e76f76
+  mode: parallel
+  max: 100
+  trigger:
+    - platform: event
+      event_type: adaptive_lighting.manual_control
+  variables:
+    light: "{{ trigger.event.data.entity_id }}"
+    switch: "{{ trigger.event.data.switch }}"
+  action:
+    - delay: "01:00:00"
+    - condition: template
+      value_template: "{{ light in state_attr(switch, 'manual_control') }}"
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: "{{ switch }}"
+        lights: "{{ light }}"
+        manual_control: false
