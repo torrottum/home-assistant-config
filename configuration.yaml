@@ -6,7 +6,3 @@ homeassistant:
   packages: !include_dir_named integrations
   allowlist_external_dirs:
     - /tmp
-
-# Text to speech
-tts:
-  - platform: google_translate
