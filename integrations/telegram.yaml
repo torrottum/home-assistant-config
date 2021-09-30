@@ -1,3 +1,4 @@
+---
 telegram_bot:
   - platform: webhooks
     api_key: !secret telegram_api_key

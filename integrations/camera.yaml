@@ -1,3 +1,4 @@
+---
 camera:
   - platform: xiaomi_cloud_map_extractor
     host: !secret xiaomi_vacuum_host
@@ -7,8 +8,8 @@ camera:
     draw: ["all"]
     attributes:
       - calibration_points
-    store_map_image: on
-    auto_update: off
+    store_map_image: true
+    auto_update: false
     map_transformation:
       rotate: 90
       scale: 3

@@ -3,7 +3,8 @@ send_vaccuum_to_bin:
   alias: "Send vacuum to bin"
   sequence:
     - variables:
-        notify_on: "{{ states('automation.vaccum_notify_started_cleaning') == 'on' }}"
+        notify_on: >
+          {{ states('automation.vaccum_notify_started_cleaning') == 'on' }}
     - choose:
         - conditions: "{{ notify_on }}"
           sequence:

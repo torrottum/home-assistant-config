@@ -1,3 +1,4 @@
+---
 notify:
   - platform: telegram
     name: telegram_tor
