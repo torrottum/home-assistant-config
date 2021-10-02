@@ -1,19 +1,17 @@
-# Adaptive Lightning config
-# TODO: Separate summmer and winter?
 ---
 adaptive_lighting:
-  - &defaults
-    name: Living Room
+  - name: Living Room
     lights:
       - light.living_room_ceiling
-    max_color_temp: 2650
-    min_brightness: 60
-  - <<: *defaults
-    name: Kitchen
+    <<: &common
+      max_color_temp: 2650
+      min_brightness: 60
+  - name: Kitchen
     lights:
       - light.kitchen_ceiling
       - light.kitchen_counter
-  - <<: *defaults
-    name: Bedroom
+    <<: *common
+  - name: Bedroom
     lights:
       - light.bedroom_ceiling
+    <<: *common
