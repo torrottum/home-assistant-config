@@ -4,3 +4,7 @@ telegram_bot:
     api_key: !secret telegram_api_key
     allowed_chat_ids:
       - !secret telegram_id_tor
+    trusted_networks:
+      - 127.0.0.1
+      - 149.154.160.0/20
+      - 91.108.4.0/22
