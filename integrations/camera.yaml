@@ -8,7 +8,6 @@ camera:
     draw: ["all"]
     attributes:
       - calibration_points
-    store_map_image: true
     auto_update: false
     map_transformation:
       rotate: 90

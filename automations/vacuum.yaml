@@ -38,8 +38,10 @@
     - alias: "Notify Telegram"
       service: notify.telegram_tor
       data:
-        title: "*🤖Woodhouse*"
+        title: "*🧹Woodhouse*"
         message: "I have started cleaning, sir"
+        data:
+          inline_keyboard: "Go back to dock!:/vacuum_goto_dock"
 
 - id: 6169502c-aa20-4666-941f-894c1205f19a
   alias: "Vacuum: Finished cleaning"
@@ -49,6 +51,12 @@
       from: "cleaning"
       to: "returning"
   action:
+    - alias: "Take snapshot of map"
+      service: camera.snapshot
+      target:
+        entity_id: camera.xiaomi_cloud_map_extractor
+      data:
+        filename: /media/woodhouse_map.jpg
     - alias: "Notify Telgram"
       service: notify.telegram_tor
       data:
@@ -56,15 +64,14 @@
         message: ""
         data:
           photo:
-            - file: /tmp/map_image_roborock.vacuum.a10.png
+            - file: /media/woodhouse_map.jpg
               caption: >
-                *🤖Woodhouse*
+                *🧹Woodhouse*
 
                 I have finished cleaning, sir. I cleaned
                 {{ state_attr("vacuum.woodhouse","cleaned_area") }}
                 m2 in
                 {{ state_attr("vacuum.woodhouse","cleaning_time") }} mins.
-
     - alias: "Turn vacuumed today helper on"
       service: input_boolean.turn_on
       target:
@@ -92,3 +99,89 @@
     input:
       vacuum: vacuum.woodhouse
       camera: camera.xiaomi_cloud_map_extractor
+
+- id: 8b702635-a8b1-46eb-94e6-58a5db38430d
+  alias: "Vacuum: Ask to empty dustbin when I come home"
+  trigger:
+    - platform: state
+      entity_id: device_tracker.tors_iphone_bt
+      from: "away"
+      to: "home"
+  condition:
+    - alias: "Vacuumed today?"
+      condition: state
+      entity_id: input_boolean.vacuumed_today
+      state: "on"
+    - alias: "Vacuum bin is not emptied"
+      condition: state
+      entity_id: input_boolean.emptied_vacuum
+      state: "off"
+  action:
+    - alias: "Send notification"
+      service: notify.telegram_tor
+      data:
+        title: "*🧹Woodhouse*"
+        message: "I have cleaned today, sir. Do you want to empty the dustbin?"
+        data:
+          inline_keyboard: "Yes:/vacuum_goto_bin,No:/dismiss"
+
+- id: 7c17ca22-84fb-4a0e-9cd0-7d1d3391fdb4
+  alias: "Vacuum: Telegram notifications callback handler"
+  mode: parallel
+  max: 25
+  max_exceeded: silent
+  trigger:
+    - platform: event
+      event_type: telegram_callback
+      event_data:
+        command: "/vacuum_goto_bin"
+    - platform: event
+      event_type: telegram_callback
+      event_data:
+        command: "/vacuum_goto_dock"
+    - platform: event
+      event_type: telegram_callback
+      event_data:
+        command: "/dismiss"
+  action:
+    - variables:
+        event_cmd: "{{ trigger.event.data.command }}"
+        user_id: "{{ trigger.event.data.user_id }}"
+        message_id: "{{ trigger.event.data.message.message_id }}"
+        chat_id: "{{ trigger.event.data.chat_id }}"
+    - alias: "Perform action(s) based on command"
+      choose:
+        - conditions: "{{ event_cmd == '/vacuum_goto_bin' }}"
+          sequence:
+            - service: telegram_bot.edit_message
+              data:
+                target: "{{ user_id }}"
+                message_id: "{{ message_id }}"
+                chat_id: "{{ chat_id }}"
+                title: "*🧹Woodhouse*"
+                inline_keyboard: "Go to dock:/vacuum_goto_dock"
+                message: "Ok sir, going to the bin."
+            - service: script.send_vaccuum_to_bin
+        - conditions: "{{ event_cmd == '/vacuum_goto_dock' }}"
+          sequence:
+            - service: telegram_bot.edit_message
+              data:
+                target: "{{ user_id }}"
+                message_id: "{{ message_id }}"
+                chat_id: "{{ chat_id }}"
+                title: "*🧹Woodhouse*"
+                inline_keyboard: []
+                message: "Ok sir, going back to the dock."
+            - service: vacuum.return_to_base
+              target:
+                entity_id: vacuum.woodhouse
+        - conditions: "{{ event_cmd == '/dismiss' }}"
+          sequence:
+            - service: telegram_bot.edit_message
+              data:
+                target: "{{ user_id }}"
+                message_id: "{{ message_id }}"
+                chat_id: "{{ chat_id }}"
+                title: "*🧹Woodhouse*"
+                inline_keyboard: []
+                message: "Ok, sir. I'll ask again next time you come home."
