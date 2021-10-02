@@ -12,8 +12,8 @@ send_vaccuum_to_bin:
               entity_id: automation.vaccum_notify_started_cleaning
     - service: xiaomi_miio.vacuum_goto
       data:
-        x_coord: 23180
-        y_coord: 31500
+        x_coord: 31617
+        y_coord: 27817
       target:
         entity_id: vacuum.woodhouse
     - wait_for_trigger:
