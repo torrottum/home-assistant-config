@@ -1,0 +1,7 @@
+find_iphone:
+  alias: "Find iPhone"
+  sequence:
+    - service: icloud.play_sound
+      data:
+        account: !secret icloud_account
+        device_name: Tor’s iPhone
