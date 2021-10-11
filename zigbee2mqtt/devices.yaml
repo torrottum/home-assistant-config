@@ -72,7 +72,7 @@
 "0x04cf8cdf3c89c45a":
   friendly_name: Extractor fan outlet
 "0x54ef44100015cba0":
-  friendly_name: Dishwasher Outlet
+  friendly_name: 0x54ef44100015cba0_x
 "0x00158d0006a25c89":
   friendly_name: Bathroom Motion
 "0x00158d0006a24416":
@@ -97,4 +97,8 @@
 "0x54ef441000139235":
   friendly_name: Washing Machine Outlet
 "0x00158d0004a97645":
-  friendly_name: "Bathroom Door"
+  friendly_name: Bathroom Door
+"0x04cd15fffe02ca32":
+  friendly_name: "0x04cd15fffe02ca32"
+"0x04cf8cdf3c7c0ce4":
+  friendly_name: Kitchen Switch

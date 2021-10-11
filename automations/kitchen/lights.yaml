@@ -1,0 +1,23 @@
+---
+- id: c7ec05ec-33a4-475f-8876-b025d8be846d
+  alias: "Kitchen: light switch"
+  use_blueprint:
+    path: z2m_aqara_opple.yaml
+    input:
+      remote: sensor.kitchen_switch_action
+      button_1_single:
+        - service: light.turn_off
+          target:
+            entity_id: light.kitchen_ceiling
+      button_2_single:
+        - service: light.turn_on
+          target:
+            entity_id: light.kitchen_ceiling
+      button_3_single:
+        - service: light.turn_off
+          target:
+            entity_id: light.kitchen_counter
+      button_4_single:
+        - service: light.turn_on
+          target:
+            entity_id: light.kitchen_counter
