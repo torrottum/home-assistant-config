@@ -21,3 +21,52 @@
         - service: light.turn_on
           target:
             entity_id: light.kitchen_counter
+
+- id: c1fac627-06f5-4f75-b2a9-3981f1f8a3c5
+  alias: "Kitchen: cooking scene when fan is on"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_extractor_fan_active
+      from: "off"
+      to: "on"
+      id: fan_on
+    - platform: state
+      entity_id: binary_sensor.kitchen_extractor_fan_active
+      from: "on"
+      to: "off"
+      id: fan_off
+  action:
+    - alias: "Turn on coooking scene or restore lights"
+      choose:
+        - conditions:
+            - condition: trigger
+              id: fan_on
+          sequence:
+            - service: scene.create
+              data:
+                scene_id: kitchen_before_cooking
+                snapshot_entities:
+                  - light.kitchen_ceiling
+                  - light.kitchen_counter
+            - service: switch.turn_off
+              target:
+                entity_id: switch.adaptive_lighting_kitchen
+            - service: scene.turn_on
+              data:
+                transition: 5
+              target:
+                entity_id: scene.cooking
+        - conditions:
+            - condition: trigger
+              id: fan_off
+          sequence:
+            - service: scene.turn_on
+              target:
+                entity_id: scene.kitchen_before_cooking
+            - service: switch.turn_off
+              target:
+                entity_id: switch.adaptive_lighting_kitchen
+            - delay: 5
+            - service: switch.turn_on
+              target:
+                entity_id: switch.adaptive_lighting_kitchen
