@@ -1,0 +1,267 @@
+---
+blueprint:
+  name: "Z2M: Aqara Opple"
+  description: "Run actions when Aqara Opple is used"
+  domain: automation
+  input:
+    remote:
+      name: Opple switch
+      description: Opple switch to use
+      selector:
+        entity:
+          domain: sensor
+    button_1_single:
+      name: Button 1 single press
+      description: Action(s) to run on button_1_single
+      default: []
+      selector:
+        action: null
+    button_1_double:
+      name: Button 1 double press
+      description: Action(s) to run on button_1_double
+      default: []
+      selector:
+        action: null
+    button_1_triple:
+      name: Button 1 triple press
+      description: Action(s) to run on button_1_triple
+      default: []
+      selector:
+        action: null
+    button_1_hold:
+      name: Button 1 hold
+      description: Action(s) to repeat on button_1_hold until button_1_release
+      default: []
+      selector:
+        action: null
+    # Button 2
+    button_2_single:
+      name: Button 2 single press
+      description: Action(s) to run on button_2_single
+      default: []
+      selector:
+        action: null
+    button_2_double:
+      name: Button 2 double press
+      description: Action(s) to run on button_2_double
+      default: []
+      selector:
+        action: null
+    button_2_triple:
+      name: Button 2 triple press
+      description: Action(s) to run on button_2_triple
+      default: []
+      selector:
+        action: null
+    button_2_hold:
+      name: Button 2 hold
+      description: Action(s) to repeat on button_2_hold until button_2_release
+      default: []
+      selector:
+        action: null
+    # Button 3
+    button_3_single:
+      name: Button 3 single press
+      description: Action(s) to run on button_3_single
+      default: []
+      selector:
+        action: null
+    button_3_double:
+      name: Button 3 double press
+      description: Action(s) to run on button_3_double
+      default: []
+      selector:
+        action: null
+    button_3_triple:
+      name: Button 3 triple press
+      description: Action(s) to run on button_3_triple
+      default: []
+      selector:
+        action: null
+    button_3_hold:
+      name: Button 3 hold
+      description: Action(s) to repeat on button_3_hold until button_3_release
+      default: []
+      selector:
+        action: null
+    # Button 4
+    button_4_single:
+      name: Button 4 single press
+      description: Action(s) to run on button_4_single
+      default: []
+      selector:
+        action: null
+    button_4_double:
+      name: Button 4 double press
+      description: Action(s) to run on button_4_double
+      default: []
+      selector:
+        action: null
+    button_4_triple:
+      name: Button 4 triple press
+      description: Action(s) to run on button_4_triple
+      default: []
+      selector:
+        action: null
+    button_4_hold:
+      name: Button 4 hold
+      description: Action(s) to repeat on button_4_hold until button_3_release
+      default: []
+      selector:
+        action: null
+    # Button 5
+    button_5_single:
+      name: Button 5 single press
+      description: Action(s) to run on button_5_single
+      default: []
+      selector:
+        action: null
+    button_5_double:
+      name: Button 5 double press
+      description: Action(s) to run on button_5_double
+      default: []
+      selector:
+        action: null
+    button_5_triple:
+      name: Button 5 triple press
+      description: Action(s) to run on button_5_triple
+      default: []
+      selector:
+        action: null
+    button_5_hold:
+      name: Button 4 hold
+      description: Action(s) to repeat on button_4_hold until button_3_release
+      default: []
+      selector:
+        action: null
+    # Button 6
+    button_6_single:
+      name: Button 6 single press
+      description: Action(s) to run on button_6_single
+      default: []
+      selector:
+        action: null
+    button_6_double:
+      name: Button 6 double press
+      description: Action(s) to run on button_6_double
+      default: []
+      selector:
+        action: null
+    button_6_triple:
+      name: Button 6 triple press
+      description: Action(s) to run on button_6_triple
+      default: []
+      selector:
+        action: null
+    button_6_hold:
+      name: Button 4 hold
+      description: Action(s) to repeat on button_4_hold until button_3_release
+      default: []
+      selector:
+        action: null
+mode: restart
+trigger:
+  - platform: state
+    entity_id: !input remote
+    to:
+      - "button_1_single"
+      - "button_1_double"
+      - "button_1_triple"
+      - "button_1_hold"
+      - "button_1_release"
+      # Button 2
+      - "button_2_single"
+      - "button_2_double"
+      - "button_2_triple"
+      - "button_2_hold"
+      - "button_2_release"
+      # Button 3
+      - "button_3_single"
+      - "button_3_double"
+      - "button_3_triple"
+      - "button_3_hold"
+      - "button_3_release"
+      # Button 4
+      - "button_4_single"
+      - "button_4_double"
+      - "button_4_triple"
+      - "button_4_hold"
+      - "button_4_release"
+      # Button 5
+      - "button_5_single"
+      - "button_5_double"
+      - "button_5_triple"
+      - "button_5_hold"
+      - "button_5_release"
+      # Button 6
+      - "button_6_single"
+      - "button_6_double"
+      - "button_6_triple"
+      - "button_6_hold"
+      - "button_6_release"
+
+action:
+  - variables:
+      action: "{{ trigger.to_state.attributes.action }}"
+  - alias: "Run actions based on switch action"
+    choose:
+      - conditions: "{{ action == 'button_1_single' }}"
+        sequence: !input button_1_single
+      - conditions: "{{ action == 'button_1_double' }}"
+        sequence: !input button_1_double
+      - conditions: "{{ action == 'button_1_triple' }}"
+        sequence: !input button_1_triple
+      - conditions: "{{ action == 'button_1_hold' }}"
+        sequence:
+          repeat:
+            until:
+              - condition: state
+                entity_id: !input remote
+                state: button_1_release
+                attribute: action
+            sequence: !input button_1_hold
+      - conditions: "{{ action == 'button_2_single' }}"
+        sequence: !input button_2_single
+      - conditions: "{{ action == 'button_2_double' }}"
+        sequence: !input button_2_double
+      - conditions: "{{ action == 'button_2_triple' }}"
+        sequence: !input button_2_triple
+      - conditions: "{{ action == 'button_2_hold' }}"
+        sequence:
+          repeat:
+            until:
+              - condition: state
+                entity_id: !input remote
+                state: button_2_release
+                attribute: action
+            sequence: !input button_2_hold
+      - conditions: "{{ action == 'button_3_single' }}"
+        sequence: !input button_3_single
+      - conditions: "{{ action == 'button_3_double' }}"
+        sequence: !input button_3_double
+      - conditions: "{{ action == 'button_3_triple' }}"
+        sequence: !input button_3_triple
+      - conditions: "{{ action == 'button_3_hold' }}"
+        sequence:
+          repeat:
+            until:
+              - condition: state
+                entity_id: !input remote
+                state: button_3_release
+                attribute: action
+            sequence: !input button_3_hold
+      - conditions: "{{ action == 'button_4_single' }}"
+        sequence: !input button_4_single
+      - conditions: "{{ action == 'button_4_double' }}"
+        sequence: !input button_4_double
+      - conditions: "{{ action == 'button_4_triple' }}"
+        sequence: !input button_4_triple
+      - conditions: "{{ action == 'button_4_hold' }}"
+        sequence:
+          repeat:
+            until:
+              - condition: state
+                entity_id: !input remote
+                state: button_4_release
+                attribute: action
+            sequence: !input button_4_hold
