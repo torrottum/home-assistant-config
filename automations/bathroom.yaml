@@ -39,40 +39,6 @@
     - delay:
         hours: 5
 
-- id: 48eeea46-39d5-48eb-93c7-e3ef0d24c47d
-  alias: "Bathroom: Blink lights after showering for 5 minutes"
-  mode: single
-  max_exceeded: silent
-  trigger:
-    - platform: numeric_state
-      entity_id: sensor.bathroom_temperature_and_humidity_humidity
-      above: 80
-      for: "00:05:00"
-  condition:
-    - alias: "Light is on"
-      condition: state
-      entity_id: light.bathroom_ceiling
-      state: "on"
-  action:
-    - alias: "Blink lights"
-      service: light.turn_on
-      data:
-        flash: long
-      target:
-        entity_id: light.bathroom_ceiling
-    # I think this automation might be triggered when I dry clothes
-    - alias: "Send Telegram notification (for tracking purposes)"
-      service: notify.telegram_tor
-      data:
-        title: "*Shower time is up!*"
-        message: "Bathroom humidity has been over 80 for 5 minutes"
-    - alias: "Wait for humidity to go down"
-      wait_for_trigger:
-        - platform: numeric_state
-          entity_id: sensor.bathroom_temperature_and_humidity_humidity
-          below: 80
-          for: "00:01:00"
-
 # TODO: Fix this, it's a bit wonky
 - id: 76ca785d-94d4-4095-9077-e278116611dc
   alias: "Bathroom: Play radio when door is closed"
