@@ -9,3 +9,4 @@ zigbee2mqtt/*
 __pycache__
 .vscode
 .cloud
+*.log.*
