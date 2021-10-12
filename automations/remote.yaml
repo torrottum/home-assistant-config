@@ -77,19 +77,6 @@
               - light.bedroom_ceiling
               - light.desk_lamp
 
-- alias: "Remote: Ansluta remote"
-  id: b571b962-fe87-49b3-80bc-33c08710fea7
-  trigger:
-    - platform: event
-      event_type: esphome.ansluta_remote_clicked
-      event_data:
-        address: 35c0
-  action:
-    - service: light.toggle
-      target:
-        entity_id: light.kitchen
-  mode: restart
-
 - alias: "Remote: Bedroom Dimmer"
   id: d269d51a-1f60-498e-9681-9fed3dd0abde
   variables:
