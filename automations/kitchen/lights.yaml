@@ -1,6 +1,6 @@
 ---
 - id: c7ec05ec-33a4-475f-8876-b025d8be846d
-  alias: "Kitchen: light switch"
+  alias: "Kitchen: Light switch"
   use_blueprint:
     path: z2m_aqara_opple.yaml
     input:
