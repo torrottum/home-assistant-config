@@ -15,13 +15,14 @@ while read -r component; do
     continue;
   fi
 
-  git add "$component_path"
   new_version=$(jq -r '.version' "$manifest_path")
   if git status --porcelain "$manifest_path" | grep "^??"; then
+    git add "$component_path"
     echo "Add '$component' version $new_version"
     git commit --author="Tor Røttum <tor@torrottum.no>" \
       -m "add '$component' version $new_version [auto-commit]"
   else
+    git add "$component_path"
     old_version=$(git show "HEAD:$manifest_path" | jq -r '.version')
     echo "Change $component from $old_version to $new_version"
     git commit --author="Tor Røttum <tor@torrottum.no>" \
