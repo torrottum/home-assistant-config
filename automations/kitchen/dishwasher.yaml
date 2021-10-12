@@ -26,19 +26,6 @@
           Dishwasher changed from {{ trigger.from_state.state }}
           to {{ trigger.to_state.state }}
 
-# BUGS:
-#  - Power drops below 25 during the program. Should not be a problem for clean
-#    notifications, but would be nice with a accurate status.
-#      Should be fixable with "for", but must be tested/measured
-#   - Dirty is set when drying, power drops to 1 and then 0 for a little while
-#     this is a problem
-#     Also fixable with for.
-# TODO:
-# - Check with other programs as well. (Eco without turbo, 75c without turbo)
-#    - [ ] Eco without turbo
-#    - [ ] 75c without turbo
-# - Lift conditions up
-#     Should be doable with an or condition?
 - id: 3c659a76-ca8c-412c-9a3f-050467cbbaed
   alias: "Dishwasher: Set dishwasher status"
   trigger:
