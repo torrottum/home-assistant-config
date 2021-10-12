@@ -37,13 +37,15 @@
       entity_id: sensor.dishwasher_power
       below: 25
       for:
-        minutes: 2 # Will be 5 minutes in total before setting state to drying
+        # Will be 5 minutes in total before setting state to drying
+        minutes: 2
       id: set_drying
     - platform: state
       entity_id: input_select.dishwasher_status
       to: Drying
       for:
-        minutes: 25 # I think the fan kicks in about 5 mins after the drop
+        # I think the fan kicks in about 5 mins after the drop
+        minutes: 25
       id: set_clean
     - platform: numeric_state
       entity_id: sensor.dishwasher_power
@@ -80,7 +82,8 @@
               state: Running
           sequence:
             - delay:
-                minutes: 3 # Will be 5 mins in total
+                # Will be 5 mins in total
+                minutes: 3
             - service: input_select.select_option
               data:
                 entity_id: input_select.dishwasher_status
