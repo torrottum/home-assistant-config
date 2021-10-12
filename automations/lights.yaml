@@ -61,23 +61,6 @@
     - service: light.turn_off
       entity_id: light.reading_lamp
 
-- alias: "Light: turn off bedroom lights after 2 hours"
-  id: 05ba2406-7b7c-44fb-a70c-a72f8c549e52
-  trigger:
-    platform: state
-    entity_id: light.bedroom_ceiling
-    from: "off"
-    to: "on"
-    for: "02:00:00"
-  condition:
-    - condition: "state"
-      entity_id: "binary_sensor.bedroom_motion_occupancy"
-      state: "off"
-  action:
-    - service: light.turn_off
-      target:
-        entity_id: light.bedroom_ceiling
-
 - id: 1fc5a536-8e48-4d30-832d-01bd492cdbd9
   alias: "Light: Turn on desk lamp at 23:00"
   trigger:
