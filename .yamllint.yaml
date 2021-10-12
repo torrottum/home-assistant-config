@@ -11,3 +11,5 @@ ignore: |
   scripts.yaml
   themes/
   .esphome/
+  notebooks/bokeh-examples
+  notebooks/home-assistant
