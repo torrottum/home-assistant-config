@@ -1,0 +1,44 @@
+# Was not sure where to put this notification
+# Might have more morning specific stuff later?
+# Own notifications automation? Planning to have humidity and door notification
+# TODO: Make decisions
+---
+- id: 82992ceb-b69b-4958-b414-33cd80842442
+  alias: "Bathroom: Say (TTS) good morning when cabinet is opened"
+  mode: single
+  max_exceeded: silent
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bathroom_cabinet_door_contact
+      from: "off"
+      to: "on"
+  condition:
+    - alias: "Morning, between 06:00 and 11:00"
+      condition: time
+      after: "06:00:00"
+      before: "11:00:00"
+  action:
+    - alias: "Remind to take medications and/or fill up depending on day"
+      choose:
+        - conditions:
+            - alias: "Is it Sunday?"
+              condition: time
+              weekday:
+                - "sun"
+          sequence:
+            - service: tts.cloud_say
+              data:
+                entity_id: "media_player.bathroom_nest_mini"
+                # Good morning Tor remember to take your meds and
+                # fill your organizer for next week
+                message: >
+                  God morgen, Tor.
+                  Husk å ta medisin og fylle opp dosetten for neste uke
+      default:
+        - service: tts.cloud_say
+          data:
+            entity_id: "media_player.bathroom_nest_mini"
+            # Good morning Tor, remember to take your meds
+            message: "God morgen, Tor. Husk å ta medisin"
+    - delay:
+        hours: 5
