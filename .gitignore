@@ -10,3 +10,6 @@ __pycache__
 .vscode
 .cloud
 *.log.*
+notebooks/bokeh-examples
+notebooks/home-assistant
+notebooks/.*
