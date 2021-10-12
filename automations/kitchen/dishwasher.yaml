@@ -30,6 +30,9 @@
 #  - Power drops below 25 during the program. Should not be a problem for clean
 #    notifications, but would be nice with a accurate status.
 #      Should be fixable with "for", but must be tested/measured
+#   - Dirty is set when drying, power drops to 1 and then 0 for a little while
+#     this is a problem
+#     Also fixable with for.
 # TODO:
 # - Check with other programs as well. (Eco without turbo, 75c without turbo)
 #    - [ ] Eco without turbo
