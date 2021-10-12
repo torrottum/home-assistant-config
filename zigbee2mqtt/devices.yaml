@@ -1,104 +1,106 @@
----
-"0x00158d00066904ac":
+'0x00158d00066904ac':
   friendly_name: Washing Machine Vibration
-"0x680ae2fffe8f6b3f":
+'0x680ae2fffe8f6b3f':
   friendly_name: Bathroom Ceiling 1
   homeassistant: null
-"0x680ae2fffe8c8abe":
+'0x680ae2fffe8c8abe':
   friendly_name: Bathroom Ceiling 2
   homeassistant: null
-"0x680ae2fffec20297":
+'0x680ae2fffec20297':
   friendly_name: Bathroom Ceiling 3
   homeassistant: null
-"0x00178801064e8691":
+'0x00178801064e8691':
   friendly_name: Living Room Ceiling 1
   homeassistant: null
-"0x00178801067a5561":
+'0x00178801067a5561':
   friendly_name: Living Room Ceiling 2
   homeassistant: null
-"0x00178801067a51dc":
+'0x00178801067a51dc':
   friendly_name: Living Room Ceiling 3
   homeassistant: null
-"0x00178801067b2212":
+'0x00178801067b2212':
   friendly_name: Reading Lamp
-"0x00178801064e9b34":
+'0x00178801064e9b34':
   friendly_name: Kitchen Ceiling 1
   homeassistant: null
-"0x00178801064e8251":
+'0x00178801064e8251':
   friendly_name: Kitchen Ceiling 2
   homeassistant: null
-"0x00178801067a564a":
+'0x00178801067a564a':
   friendly_name: Kitchen Ceiling 3
   homeassistant: null
-"0x00178801064f061f":
+'0x00178801064f061f':
   friendly_name: Bedroom Ceiling 2
   homeassistant: null
-"0x00178801062fab0a":
+'0x00178801062fab0a':
   friendly_name: Bedroom Ceiling 1
   homeassistant: null
-"0x680ae2fffeaa1ef9":
+'0x680ae2fffeaa1ef9':
   friendly_name: Entrance Ceiling
   homeassistant:
     switch:
       type: light
       object_id: light
       name: Entrance Ceiling
-"0x680ae2fffefc4afd":
+'0x680ae2fffefc4afd':
   friendly_name: Storage Room
   homeassistant:
     switch:
       type: light
       object_id: light
       name: Storage Room
-"0x00178801080a0f00":
+'0x00178801080a0f00':
   friendly_name: Living Room Dimmer
-"0x001788010873eb61":
+'0x001788010873eb61':
   friendly_name: Bedroom Dimmer
-"0x00158d00057f854f":
+'0x00158d00057f854f':
   friendly_name: Bedroom Motion
   occupancy_timeout: 65
-"0x680ae2fffefa3d8a":
+'0x680ae2fffefa3d8a':
   friendly_name: Coffee Maker Outlet
-"0x588e81fffe301c54":
+'0x588e81fffe301c54':
   friendly_name: Coffee Maker Button
-"0x00158d0004abc78a":
+'0x00158d0004abc78a':
   friendly_name: Storage Room Door
-"0x00158d00069c518f":
+'0x00158d00069c518f':
   friendly_name: Reading Chair Presence
-"0x54ef4410000e4ed9":
+'0x54ef4410000e4ed9':
   friendly_name: TV outlet
-"0x00158d0006ea8820":
+'0x00158d0006ea8820':
   friendly_name: Bathroom temperature and humidity
-"0x04cf8cdf3c89c45a":
+'0x04cf8cdf3c89c45a':
   friendly_name: Extractor fan outlet
-"0x54ef44100015cba0":
+'0x54ef44100015cba0':
   friendly_name: 0x54ef44100015cba0_x
-"0x00158d0006a25c89":
+'0x00158d0006a25c89':
   friendly_name: Bathroom Motion
-"0x00158d0006a24416":
+'0x00158d0006a24416':
   friendly_name: Bathroom Motion 2
   occupancy_timeout: 10
-"0x00158d0006d509a0":
+'0x00158d0006d509a0':
   friendly_name: Bathroom Cabinet Door
-"0x0017880109e16c5e":
+'0x0017880109e16c5e':
   friendly_name: Bed Reading Light
-"0x04cf8cdf3c7d5d4c":
-  friendly_name: "0x04cf8cdf3c7d5d4c"
-"0x00158d0006792629":
+'0x04cf8cdf3c7d5d4c':
+  friendly_name: '0x04cf8cdf3c7d5d4c'
+'0x00158d0006792629':
   friendly_name: LackRack Button
-"0x60a423fffef6b169":
+'0x60a423fffef6b169':
   friendly_name: Bathroom remote
-"0x00158d0006b7be88":
+'0x00158d0006b7be88':
   friendly_name: Entrance Motion
-"0x588e81fffeadd19d":
+'0x588e81fffeadd19d':
   friendly_name: Turntable Outlet
-"0x00158d0006b27ffd":
+'0x00158d0006b27ffd':
   friendly_name: Living room and kitchen
-"0x54ef441000139235":
+'0x54ef441000139235':
   friendly_name: Washing Machine Outlet
-"0x00158d0004a97645":
+'0x00158d0004a97645':
   friendly_name: Bathroom Door
-"0x04cd15fffe02ca32":
-  friendly_name: "0x04cd15fffe02ca32"
-"0x04cf8cdf3c7c0ce4":
+'0x04cd15fffe02ca32':
+  friendly_name: Dishwasher
+  measurement_poll_interval: 60
+'0x04cf8cdf3c7c0ce4':
   friendly_name: Kitchen Switch
+'0x04cf8cdf3c7c073e':
+  friendly_name: Bedroom Switch
