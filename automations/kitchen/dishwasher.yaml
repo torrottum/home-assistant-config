@@ -1,0 +1,121 @@
+---
+- id: 384a4b0d-ec02-4d22-9eba-0da466cb7465
+  alias: "Dishwasher: Send notification when clean"
+  trigger:
+    - platform: state
+      entity_id: input_select.dishwasher_status
+      to: "Clean"
+  action:
+    - service: notify.telegram_tor
+      data:
+        # TODO: Is there anything useful I can add to this notification?
+        # Should I continue to nag myself until I have emptied it?
+        message: "*🍽🧽Dishwasher finished*"
+
+# For debugging purposes. Will be removed. TODO: Remove
+- id: a1639656-f2b0-4e4e-a58a-7e8b0dd3eaa2
+  alias: "Dishwasher: Send state changes"
+  trigger:
+    - platform: state
+      entity_id: input_select.dishwasher_status
+  action:
+    - alias: "Notify"
+      service: notify.telegram_tor
+      data:
+        message: >
+          Dishwasher changed from {{ trigger.from_state.state }}
+          to {{ trigger.to_state.state }}
+
+# BUGS:
+#  - Power drops below 25 during the program. Should not be a problem for clean
+#    notifications, but would be nice with a accurate status.
+#      Should be fixable with "for", but must be tested/measured
+# TODO:
+# - Check with other programs as well. (Eco without turbo, 75c without turbo)
+#    - [ ] Eco without turbo
+#    - [ ] 75c without turbo
+# - Lift conditions up
+#     Should be doable with an or condition?
+- id: 3c659a76-ca8c-412c-9a3f-050467cbbaed
+  alias: "Dishwasher: Set dishwasher status"
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.dishwasher_power
+      above: 25
+      id: set_running
+    - platform: numeric_state
+      entity_id: sensor.dishwasher_power
+      below: 25
+      id: set_drying
+    - platform: state
+      entity_id: input_select.dishwasher_status
+      to: Drying
+      for:
+        minutes: 30
+      id: set_clean
+    - platform: numeric_state
+      entity_id: sensor.dishwasher_power
+      below: 1
+      id: set_dirty
+  action:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: set_running
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: input_select.dishwasher_status
+                  state: Dirty
+                - condition: state
+                  entity_id: input_select.dishwasher_status
+                  state: Clean
+                - condition: state
+                  entity_id: input_select.dishwasher_status
+                  state: Drying
+          sequence:
+            - service: input_select.select_option
+              data:
+                entity_id: input_select.dishwasher_status
+                option: Running
+        - conditions:
+            - condition: trigger
+              id: set_drying
+            - condition: state
+              entity_id: input_select.dishwasher_status
+              state: Running
+          sequence:
+            - service: input_select.select_option
+              data:
+                entity_id: input_select.dishwasher_status
+                option: Drying
+        - conditions:
+            - condition: trigger
+              id: set_clean
+            - condition: state
+              entity_id: input_select.dishwasher_status
+              state: Drying
+          sequence:
+            - service: input_select.select_option
+              data:
+                entity_id: input_select.dishwasher_status
+                option: Clean
+        - conditions:
+            - condition: trigger
+              id: set_dirty
+            - condition: numeric_state
+              entity_id: sensor.dishwasher_power
+              below: 1
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: input_select.dishwasher_status
+                  state: Clean
+                - condition: state
+                  entity_id: input_select.dishwasher_status
+                  state: Drying
+          sequence:
+            - service: input_select.select_option
+              data:
+                entity_id: input_select.dishwasher_status
+                option: Dirty
