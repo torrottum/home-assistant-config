@@ -23,7 +23,7 @@
             entity_id: light.kitchen_counter
 
 - id: c1fac627-06f5-4f75-b2a9-3981f1f8a3c5
-  alias: "Kitchen: cooking scene when fan is on"
+  alias: "Kitchen: turn on cooking scene when fan is on"
   trigger:
     - platform: state
       entity_id: binary_sensor.kitchen_extractor_fan_active
