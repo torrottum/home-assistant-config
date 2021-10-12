@@ -1,3 +1,4 @@
+---
 find_iphone:
   alias: "Find iPhone"
   sequence:
