@@ -1,0 +1,11 @@
+---
+# TODO: Take door sensor into account?
+- alias: "Bathroom: Motion sensor controls lights"
+  id: 85d9f721-d1f2-42b3-b13e-5a1202a774cf
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      no_motion_wait: "300"
+      motion_entity: group.bathroom_motion
+      light_target:
+        entity_id: light.bathroom_ceiling
