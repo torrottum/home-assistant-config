@@ -70,3 +70,21 @@
             - service: switch.turn_on
               target:
                 entity_id: switch.adaptive_lighting_kitchen
+
+- id: bd32c431-aeee-4383-87b5-a990d86fa954
+  alias: "Kitchen: turn off cabinet lights after 1 hour"
+  trigger:
+    - platform: state
+      entity_id: light.kitchen_counter
+      to: "on"
+      for:
+        hours: 1
+  condition:
+    - alias: "Kitchen fan off"
+      condition: state
+      entity_id: binary_sensor.kitchen_extractor_fan_active
+      state: "off"
+  action:
+    - service: light.turn_off
+      target:
+        entity_id: light.kitchen_counter
