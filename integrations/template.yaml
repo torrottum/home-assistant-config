@@ -30,3 +30,15 @@ template:
         {% else %}
           mdi:fan-off
         {% endif %}
+  - sensor:
+      name: "30 minutes before alarm"
+      unique_id: half_hour_before_alarm
+      state: >
+        {% set alarm_time = now().replace(
+          hour=state_attr("input_datetime.alarm_clock_time", "hour"),
+          minute=state_attr("input_datetime.alarm_clock_time", "minute"),
+          second=state_attr("input_datetime.alarm_clock_time", "second"),
+          microsecond=0
+        ) %}
+        {{ (alarm_time - timedelta(minutes=30)).isoformat() }}
+      device_class: timestamp
