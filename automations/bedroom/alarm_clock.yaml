@@ -145,8 +145,7 @@
     - service: media_player.media_stop
       entity_id: media_player.nestmini0352
     - delay:
-        # minutes: 5
-        seconds: 10
+        minutes: 5
     - service: input_select.select_option
       entity_id: input_select.alarm_clock_state
       data:
