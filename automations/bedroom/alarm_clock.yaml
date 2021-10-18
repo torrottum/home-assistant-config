@@ -1,0 +1,153 @@
+---
+- id: f42333c1-448d-490b-b4a2-1c12ecf537ef
+  alias: "Alarm clock: Wake up light"
+  trigger:
+    - platform: time
+      at: sensor.30_minutes_before_alarm
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.alarm_clock_wakeup_light
+      state: "on"
+  action:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: switch.adaptive_lighting_bedroom
+        lights: light.bedroom_ceiling
+    - service: light.turn_on
+      entity_id: light.bedroom_ceiling
+      data:
+        brightness: 1
+        color_temp: 454
+    - delay:
+        seconds: 1
+    # TODO: See if this is stable enough, if not, bring back the old pyscript
+    # or call the service in a loop
+    - service: light.turn_on
+      entity_id: light.bedroom_ceiling
+      data:
+        brightness: 255
+        color_temp: 200
+        transition: 1800
+
+- id: 552de013-cbb8-4b15-87dd-5c3a7adeeda2
+  alias: "Alarm clock: Ring at alarm time"
+  trigger:
+    - platform: time
+      at: input_datetime.alarm_clock_time
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+  action:
+    - service: input_select.select_option
+      entity_id: input_select.alarm_clock_state
+      data:
+        option: "Ringing"
+
+- id: f6719258-d301-4093-8849-273927f0d2bb
+  alias: "Alarm clock: Play radio when ringing"
+  trigger:
+    - platform: state
+      entity_id: input_select.alarm_clock_state
+      to: "Ringing"
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+  action:
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.4
+      target:
+        entity_id: media_player.nestmini0352
+    - service: media_player.play_media
+      entity_id: media_player.nestmini0352
+      data:
+        media_content_id: http://lyd.nrk.no/nrk_radio_p13_aac_h?_hdr=0
+        media_content_type: music
+
+- id: 81126e26-ff29-4c84-ac27-714a0c149b3b
+  alias: "Alarm clock: Stop radio when idle"
+  trigger:
+    - platform: state
+      entity_id: input_select.alarm_clock_state
+      to: "Idle"
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+    - condition: state
+      entity_id: media_player.nestmini0352
+      state: "playing"
+  action:
+    - service: media_player.media_stop
+      entity_id: media_player.nestmini0352
+
+- id: 7b65f648-b4d3-4594-b229-e677436b5fe5
+  alias: "Alarm clock: Snooze when media player pauses/stops"
+  trigger:
+    - platform: state
+      entity_id: media_player.nestmini0352
+      from: "playing"
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+    - condition: state
+      entity_id: input_select.alarm_clock_state
+      state: "Ringing"
+  action:
+    - service: input_select.select_option
+      entity_id: input_select.alarm_clock_state
+      data:
+        option: "Snoozing"
+
+- id: eb954f4c-1ed5-4379-9103-e80ef51c0760
+  alias: "Alarm clock: Blink lights when ringing"
+  trigger:
+    - platform: state
+      entity_id: input_select.alarm_clock_state
+      to: "Ringing"
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+  action:
+    - service: media_player.media_stop
+      entity_id: media_player.nestmini0352
+    - repeat:
+        while:
+          - condition: state
+            entity_id: input_select.alarm_clock_state
+            state: "Ringing"
+        sequence:
+          - service: light.turn_on
+            entity_id: light.kitchen_ceiling
+            data:
+              flash: short
+          - delay:
+              seconds: 2
+
+- id: dda19997-1bb8-4819-97bf-5de6336ed4dd
+  alias: "Alarm clock: Snooze"
+  trigger:
+    - platform: state
+      entity_id: input_select.alarm_clock_state
+      to: "Snoozing"
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+  action:
+    - service: media_player.media_stop
+      entity_id: media_player.nestmini0352
+    - delay:
+        # minutes: 5
+        seconds: 10
+    - service: input_select.select_option
+      entity_id: input_select.alarm_clock_state
+      data:
+        option: "Ringing"

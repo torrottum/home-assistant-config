@@ -8,3 +8,10 @@ input_select:
       - Drying
       - Clean
     initial: Dirty
+  alarm_clock_state:
+    name: Alarm Clock State
+    options:
+      - Idle
+      - Ringing
+      - Snoozing
+    initial: Idle

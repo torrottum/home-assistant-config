@@ -15,3 +15,7 @@ input_boolean:
   adaptive_lightning_master:
     name: Adaptive Lightning Master
     icon: mdi:theme-light-dark
+  alarm_clock:
+    name: "Alarm clock on"
+  alarm_clock_wakeup_light:
+    name: "Alarm clock wakeup light"
