@@ -7,3 +7,21 @@
       trigger_entity: sensor.coffee_maker_button_action
       target_entity:
         entity_id: switch.coffee_maker_outlet
+
+- id: 1b75c3f8-9db3-4a26-8255-951800f8dc98
+  alias: "Cofee Maker: Turn on at alarm time"
+  trigger:
+    - platform: time
+      at: input_datetime.alarm_clock_time
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarm_clock
+      state: "on"
+    - condition: state
+      entity_id: switch.coffee_maker_outlet
+      state: "off"
+  action:
+    - alias: "Turn on coffee maker"
+      service: switch.turn_on
+      target:
+        entity_id: switch.coffee_maker_outlet
