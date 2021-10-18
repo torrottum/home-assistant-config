@@ -125,7 +125,7 @@
             state: "Ringing"
         sequence:
           - service: light.turn_on
-            entity_id: light.kitchen_ceiling
+            entity_id: light.bedroom_ceiling
             data:
               flash: short
           - delay:
