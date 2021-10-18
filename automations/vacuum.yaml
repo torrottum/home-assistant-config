@@ -51,27 +51,15 @@
       from: "cleaning"
       to: "returning"
   action:
-    - alias: "Take snapshot of map"
-      service: camera.snapshot
-      target:
-        entity_id: camera.xiaomi_cloud_map_extractor
-      data:
-        filename: /media/woodhouse_map.jpg
     - alias: "Notify Telgram"
       service: notify.telegram_tor
       data:
-        title: ""
-        message: ""
-        data:
-          photo:
-            - file: /media/woodhouse_map.jpg
-              caption: >
-                *🧹Woodhouse*
-
-                I have finished cleaning, sir. I cleaned
-                {{ state_attr("vacuum.woodhouse","cleaned_area") }}
-                m2 in
-                {{ state_attr("vacuum.woodhouse","cleaning_time") }} mins.
+        title: " *🧹Woodhouse*"
+        message: >
+          I have finished cleaning, sir. I cleaned
+          {{ state_attr("vacuum.woodhouse","cleaned_area") }}
+          m2 in
+          {{ state_attr("vacuum.woodhouse","cleaning_time") }} mins.
     - alias: "Turn vacuumed today helper on"
       service: input_boolean.turn_on
       target:
