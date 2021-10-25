@@ -6,6 +6,10 @@
     platform: state
     entity_id: binary_sensor.someone_home
     to: "off"
+  condition:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: "off"
   action:
     service: script.turn_off_everything
 
