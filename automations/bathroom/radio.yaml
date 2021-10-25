@@ -1,6 +1,8 @@
 ---
 - id: 76ca785d-94d4-4095-9077-e278116611dc
   alias: "Bathroom: Play radio when door is closed"
+  mode: single
+  max_exceeded: silent
   trigger:
     - platform: state
       entity_id: binary_sensor.bathroom_door_contact
