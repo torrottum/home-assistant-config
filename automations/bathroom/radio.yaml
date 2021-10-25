@@ -26,7 +26,7 @@
               entity_id: media_player.bathroom_nest_mini
             - alias: "Delay to stop automation from starting again"
               delay:
-                seconds: 15
+                minutes: 5
         - conditions:
             - condition: trigger
               id: door_closed
