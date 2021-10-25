@@ -146,6 +146,9 @@
       entity_id: media_player.nestmini0352
     - delay:
         minutes: 5
+    - condition: state
+      entity_id: input_select.alarm_clock_state
+      state: "Snoozing"
     - service: input_select.select_option
       entity_id: input_select.alarm_clock_state
       data:
